@@ -1,0 +1,58 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+mu = sample(50+(0:20)*10, 1)
+sig = sample(2:round(mu/3,0), 1)
+n = sample(80:300, 1)
+se = round(sig/sqrt(n), 3)
+z = round(runif(1,-3,3), 2)
+xbar = round(mu+z*se,2)
+pvalue = round(2*pnorm(-abs(z)),3)
+
+```
+
+Question
+========
+
+A null hypothesis claims a roughly symmetric population has a mean $\mu = `r mu`$ and a standard deviation $\sigma = `r sig`$. Determine the $p$-value of a two-tail test if your sample of size $n=`r n`$ has mean $\bar{x}=`r xbar`$.
+
+
+Solution
+========
+
+Find the standard error.
+$$SE = \frac{\sigma}{\sqrt{n}} = \frac{`r sig`}{\sqrt{`r n`}} = `r se` $$
+Make a sketch.
+\
+```{r pvalue_sketch, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(mu+(-3:3)*se,side=1,line=0.5,at=-3:3)
+mtext(c("xbar="),line=0.5,side=1,at=-3.5)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.5)
+polygon(c(zs[zs<=-abs(z)], -abs(z), -3),c(ys[zs<=-abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+polygon(c(zs[zs>=abs(z)], 3, abs(z)),c(ys[zs>=abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l')
+text(-2,0.3,label="two-tail area = pvalue")
+```
+
+Find the $z$ score.
+$$z = \frac{`r xbar`-`r mu`}{`r se`} = `r z` $$
+
+Find the $p$-value.
+$$p\text{-value} = 2\cdot \Phi(`r -abs(z)`) = `r pvalue` $$
+
+
+
+Meta-information
+============
+extype: num
+exsolution: `r pvalue`
+exname: binomial exact
+extol: 0.01

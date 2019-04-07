@@ -1,0 +1,73 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+mu = sample(50+(0:20)*10, 1)
+sig = sample(2:round(mu/3,0), 1)
+
+z = round(runif(1,-2.7,2.7),2)
+x = round(mu+z*sig,3)
+z = round((x-mu)/sig,2)
+la = round(pnorm(z),3)
+
+is_less = sample(c(T,F),1)
+if (is_less) 
+{
+    sym = '<'
+    wrd = 'less'
+    ans = la
+} else {
+    sym = '>'
+    wrd = 'greater'
+    ans = 1-la
+}
+```
+
+Question
+========
+
+Let $X$ be normally distributed with a mean $\mu = `r mu`$ and a standard deviation $\sigma = `r sig`$. Determine the probability that $X$ is `r wrd` than $`r x`$. In other words, let $X\sim \mathcal{N}(`r mu`,\,`r sig`)$ and evaluate $P(X`r sym` `r x`).$
+
+
+Solution
+========
+
+We find the $z$ score.
+$$z = \frac{x-\mu}{\sigma} = \frac{`r x`-`r mu`}{`r sig`} = `r z` $$
+We draw a sketch.
+
+\
+```{r normal_sketch_get_percentile, echo = FALSE, results = "hide", fig.height = 4, fig.width = 6, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(mu+(-3:3)*sig,side=1,line=0.5,at=-3:3)
+mtext(c("x="),line=0.5,side=1,at=-3.5)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.5)
+if (is_less) 
+{
+    polygon(c(zs[zs<=z], z, -3),c(ys[zs<=z], 0, 0), col=rgb(1,0,0,0.5))
+} else {
+    polygon(c(zs[zs>=z], 3, z),c(ys[zs>=z], 0, 0), col=rgb(1,0,0,0.5))
+}
+lines(c(-3,3),c(0,0),'l',lwd=1)
+```
+
+We find the left area.
+$$P(X<`r x`) = \Phi(`r z`) = `r la` $$
+If appropriate, we find the right area. (This is irrelevant if we just want a left area.)
+$$P(X>`r x`) = 1-`r la` = `r 1-la` $$
+We state the solution.
+$$P(X `r sym` `r x`) = `r ans` $$
+
+
+Meta-information
+============
+extype: num
+exsolution: `r ans`
+exname: Normal get percentile
+extol: 0.01
