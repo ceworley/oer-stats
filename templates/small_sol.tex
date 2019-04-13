@@ -7,8 +7,8 @@
 \usepackage{a4wide,color,verbatim,Sweave,url,xargs,amsmath,hyperref,booktabs,longtable}
 
 %% new environments
-\newenvironment{question}{\item}{}
-\newenvironment{solution}{\comment}{\endcomment}
+\newenvironment{question}{\item \textbf{Problem}\newline}{}
+\newenvironment{solution}{\textbf{Solution}\newline}{}
 \newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
 
 %% paragraphs
@@ -25,7 +25,7 @@
   \renewcommand{\rmdefault}{phv}
 }{}
 
-\newcommand{\extext}[1]{\phantom{\large #1}}
+\newcommand{\extext}[1]{\textbf{\large #1}}
 \newcommandx{\exmchoice}[9][2=-,3=-,4=-,5=-,6=-,7=-,8=-,9=-]{%
                 \mbox{(a) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#1}} \hspace*{2mm}}%
   \if #2- \else \mbox{(b) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#2}} \hspace*{2mm}} \fi%
@@ -78,37 +78,37 @@
 \makeatother
 
 %% headings
-\markboth{\textnormal{\bf \large Statistics Exam: \myID}}%
-{\textnormal{\bf \large Statistics Exam: \myID}}
+\markboth{\textnormal{\bf \large Key ID: \myID}}%
+{\textnormal{\bf \large Key ID: \myID}}
 \pagestyle{myheadings}
 
 \begin{document}
 
-%% title page
-\thispagestyle{empty}
 {\sf
-\textbf{\LARGE{R University}}
-
-\textbf{\large{Statistics Exam \myDate \hfill Exam ID \myID}}
-
-\vspace*{2cm}
-
 \begin{tabular}{p{14cm}}
-\textbf{Name:} \hrule \\[1.5cm]
-\textbf{Student ID:} \hrule \\[1.5cm]
-\textbf{Signature:} \hrule  \\[1.5cm]
+\textbf{Name:} \hrule 
 \end{tabular}
 
-\vspace*{1cm}
+\begin{enumerate}
+\renewenvironment{question}{\item \textbf{Problem}\newline}{}
+\renewenvironment{solution}{\comment}{\endcomment}
+\renewenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
+%% \exinput{exercises}
+\end{enumerate}
 
 %% \exinput{questionnaire}
-}
+
 \newpage
 
 \begin{enumerate}
-
+\renewenvironment{question}{\comment}{\endcomment}
+\renewenvironment{solution}{\item \textbf{Solution}\newline}{}
+\renewenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
 %% \exinput{exercises}
-
 \end{enumerate}
+
+}
+
+
 
 \end{document}

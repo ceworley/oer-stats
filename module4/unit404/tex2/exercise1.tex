@@ -1,0 +1,73 @@
+
+\begin{question}
+An experiment has \(n_1 = 6\) plants in the treatment group and
+\(n_2 = 8\) plants in the control group. After some time, the plants'
+heights (in cm) are measured, resulting in the following data:
+
+\begin{longtable}[]{@{}ccccccccc@{}}
+\toprule
+& value1 & value2 & value3 & value4 & value5 & value6 & value7 &
+value8\tabularnewline
+\midrule
+\endhead
+sample 1: & 0.81 & 0.98 & 1.39 & 1.34 & 0.78 & 1.11\tabularnewline
+sample 2: & 1.31 & 1.3 & 1.45 & 1.42 & 1.22 & 1.37 & 1.34 &
+1.31\tabularnewline
+\bottomrule
+\end{longtable}
+\begin{answerlist}
+  \item Determine degrees of freedom.
+  \item Determine \(t^\star\) for a \(98\%\) confidence interval.
+  \item Determine \(SE\).
+  \item Determine a lower bound of the \(98\%\) confidence interval of
+\(\mu_2-\mu_1\).
+  \item Determine an upper bound of the \(98\%\) confidence interval of
+\(\mu_2-\mu_1\).
+  \item Determine \(|t_\text{obs}|\) under the null hypothesis
+\(\mu_2-\mu_1=0\).
+  \item Determine a lower bound of the two-tail \(p\)-value.
+  \item Determine an upper bound of two-tail \(p\)-value.
+  \item Do you reject the null hypothesis with a two-tail test using a
+significance level \(\alpha = 0.02\)? (yes or no)
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+These data are unpaired. We might as well find the sample means and
+sample standard deviations (use a calculator's built-in function for
+standard deviation). \[\overline{x_1} = 1.07 \]
+\[\overline{x_2} = 1.34 \] \[s_1 = 0.259 \] \[s_2 = 0.0729 \]
+
+We make a conservative estimate of the degrees of freedom using the
+appropriate formula. \[df ~=~ \min(n_1,\,n_2)-1 ~=~ \min(6,8)-1 ~=~ 5 \]
+We use the \(t\) table to find \(t^\star\) such that
+\(P(|T|<t^\star) = 0.98\) \[t^\star = 3.36 \] We use the \(SE\) formula
+for unpaired data.
+\[SE = \sqrt{\frac{(s_1)^2}{n_1}+\frac{(s_2)^2}{n_2}} =
+\sqrt{\frac{(0.259)^2}{6}+\frac{(0.0729)^2}{8}} = 0.109 \] 
+
+We find the
+bounds of the confidence interval.
+\[CI ~=~ (\overline{x_2}-\overline{x_1})\pm t^{\star} SE\]
+\[CI ~=~ (-0.096,\, 0.636) \] We find \(t_\text{obs}\).
+\[t_\text{obs} = \frac{(\overline{x_2}-\overline{x_1})-(\mu_2-\mu_1)_0}{SE} = \frac{(1.34-1.07)-0}{0.109} = 2.48\]
+We find \(|t_\text{obs}|\). \[|t_\text{obs}| = 2.48 \] We use the table
+to determine bounds on \(p\)-value. Remember, \(df=5\) and
+\(p\text{-value} = P(|T|>|t_\text{obs}|)\).
+\[0.05 ~<~ p\text{-value} ~<~ 0.1\] We should consider both comparisons
+to make our decision. \[|t_\text{obs}| < t^{\star} \]
+\[p\text{-value} > \alpha \] Thus, we retain the null hypothesis. Also
+notice the confidence interval does contain 0.
+\begin{answerlist}
+  \item 5
+  \item 3.36
+  \item 0.109
+  \item -0.096
+  \item 0.636
+  \item 2.481
+  \item 0.05
+  \item 0.1
+  \item no
+\end{answerlist}
+\end{solution}
+

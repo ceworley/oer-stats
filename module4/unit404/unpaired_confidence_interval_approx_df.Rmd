@@ -1,0 +1,147 @@
+```{r data generation, echo = FALSE, results = "hide"}
+options(scipen=999)
+
+## DATA GENERATION
+mag = sample(0:2,1)
+mu1 = signif(10^mag,3)
+sig1 = signif(mu1*runif(1,0.05,0.3),3)
+n1 = sample(3:8,1)
+sig2 = signif(mu1*runif(1,0.05,0.3),3)
+n2 = sample(3:8,1)
+
+df = min(n1,n2)-1
+## df = (sig1^2/n1+sig2^2/n2)^2/(sig1^4/n1^2/(n1-1)+sig2^4/n2^2/(n2-1))
+## df = round((sig1^2/n1+sig2^2/n2)^2/(sig1^4/n1^2/(n1-1)+sig2^4/n2^2/(n2-1)), 0)
+
+alpha = sample(c(0.1,0.05,0.04,0.02,0.01),1)
+gamma = signif(1-alpha,2)
+tstar = round(qt(1-alpha/2,df),2)
+
+mu2 = mu1+tstar*sqrt(sig1^2/n1+sig2^2/n2)
+mu2 = signif(mu2,3)
+
+if(sample(c(T,F),1)) {
+    sam1 = round(rnorm(n1,mu1,sig1),-mag+2)
+    sam2 = round(rnorm(n2,mu2,sig2),-mag+2)
+}else{
+    sam1 = round(rnorm(n2,mu2,sig2),-mag+2)
+    sam2 = round(rnorm(n1,mu1,sig1),-mag+2)
+    n3 = n1
+    n1 = n2
+    n2 = n3
+}
+
+xbar1 = signif(mean(sam1),3)
+xbar2 = signif(mean(sam2),3)
+s1 = signif(sd(sam1),3)
+s2 = signif(sd(sam2),3)
+
+SE = round(sqrt(s1^2/n1+s2^2/n2),3)
+
+bounds = c(xbar2-xbar1-tstar*SE, xbar2-xbar1+tstar*SE)
+LB = min(bounds)
+UB = max(bounds) 
+
+t = (xbar2-xbar1)/sqrt(s1^2/n1+s2^2/n2)
+if (abs(t)>tstar){
+    wrd = 'yes'
+    pin = '<'
+    tin = '>'
+    wrd2 = 'reject'
+    wrd3 = 'not'
+} else {
+    wrd = 'no'
+    pin = '>'
+    tin = '<'
+    wrd2 = 'retain'
+    wrd3 = ''
+}
+
+ps = c(1,0.2,0.1,0.05,0.04,0.02,0.01,0.005,0.004,0.002,0)
+pval = 2*(1-pt(abs(t),df))
+plow = max(ps[ps<pval])
+phigh= min(ps[ps>=pval]) 
+```
+
+Question
+========
+
+An experiment has $n_1 = `r n1`$ plants in the treatment group and $n_2 = `r n2`$ plants in the control group. After some time, the plants' heights (in cm) are measured, resulting in the following data:
+
+| | value`r paste(1:max(n1,n2),collapse='| value')` |
+`r paste(rep("|",max(n1,n2)+2),collapse=":---:")`
+`r paste(c("sample 1:",sam1),collapse=" | ")`
+`r paste(c("sample 2:",sam2),collapse=" | ")`
+
+
+<!-- 
+| | value`r paste(1:n2,collapse='| value')` |
+`r paste(rep("|",n2+2),collapse=":---:")`
+`r paste(c("sample 2:",sam2),collapse=" | ")`
+-->
+
+
+Answerlist
+----------
+
+* Determine degrees of freedom.
+* Determine $t^\star$ for a $`r signif(gamma*100,2)`\%$ confidence interval.
+* Determine $SE$.
+* Determine a lower bound of the $`r signif(100-alpha*100,2)`\%$ confidence interval of $\mu_2-\mu_1$.
+* Determine an upper bound of the $`r signif(100-alpha*100,2)`\%$ confidence interval of $\mu_2-\mu_1$.
+* Determine $|t_\text{obs}|$ under the null hypothesis $\mu_2-\mu_1=0$.
+* Determine a lower bound of the two-tail $p$-value.
+* Determine an upper bound of two-tail $p$-value.
+* Do you reject the null hypothesis with a two-tail test using a significance level $\alpha = `r alpha`$? (yes or no)
+
+
+Solution
+========
+
+These data are unpaired. We might as well find the sample means and sample standard deviations (use a calculator's built-in function for standard deviation).
+$$\overline{x_1} = `r xbar1` $$
+$$\overline{x_2} = `r xbar2` $$
+$$s_1 = `r s1` $$
+$$s_2 = `r s2` $$
+
+We make a conservative estimate of the degrees of freedom using the appropriate formula.
+$$df ~=~ \min(n_1,\,n_2)-1 ~=~ \min(`r n1`,`r n2`)-1 ~=~ `r df` $$
+We use the $t$ table to find $t^\star$ such that $P(|T|<t^\star) = `r gamma`$
+$$t^\star = `r tstar` $$
+We use the $SE$ formula for unpaired data.
+$$SE = \sqrt{\frac{(s_1)^2}{n_1}+\frac{(s_2)^2}{n_2}} =
+\sqrt{\frac{(`r s1`)^2}{`r n1`}+\frac{(`r s2`)^2}{`r n2`}} = `r SE` $$
+We find the bounds of the confidence interval.
+$$CI ~=~ (\overline{x_2}-\overline{x_1})\pm t^{\star} SE$$
+$$CI ~=~ (`r round(LB,3)`,\, `r round(UB,3)`) $$
+We find $t_\text{obs}$.
+$$t_\text{obs} = \frac{(\overline{x_2}-\overline{x_1})-(\mu_2-\mu_1)_0}{SE} = \frac{(`r xbar2`-`r xbar1`)-0}{`r SE`} = `r round(t,2)`$$
+We find $|t_\text{obs}|$.
+$$|t_\text{obs}| = `r round(abs(t),2)` $$
+We use the table to determine bounds on $p$-value. Remember, $df=`r df`$ and $p\text{-value} = P(|T|>|t_\text{obs}|)$.
+$$`r plow` ~<~ p\text{-value} ~<~ `r phigh`$$
+We should consider both comparisons to make our decision.
+$$|t_\text{obs}| `r tin` t^{\star} $$
+$$p\text{-value} `r pin` \alpha $$
+Thus, we `r wrd2` the null hypothesis. Also notice the confidence interval does `r wrd3` contain 0.
+
+Answerlist
+----------
+
+* `r df`
+* `r tstar`
+* `r round(SE,3)`
+* `r round(LB,3)`
+* `r round(UB,3)`
+* `r round(abs(t),3)`
+* `r plow`
+* `r phigh`
+* `r wrd`
+
+Meta-information
+============
+extype: cloze
+exclozetype: num|num|num|num|num|num|num|num|string
+exsolution: `r df`|`r tstar`|`r round(SE,3)`|`r round(LB,3)`|`r round(UB,3)`|`r round(abs(t),3)`|`r plow`|`r phigh`|`r wrd`
+exname: unpaired CI
+extol: 0.01

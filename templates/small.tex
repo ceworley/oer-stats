@@ -7,7 +7,7 @@
 \usepackage{a4wide,color,verbatim,Sweave,url,xargs,amsmath,hyperref,booktabs,longtable}
 
 %% new environments
-\newenvironment{question}{\item}{}
+\newenvironment{question}{\item }{}
 \newenvironment{solution}{\comment}{\endcomment}
 \newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
 
@@ -78,37 +78,24 @@
 \makeatother
 
 %% headings
-\markboth{\textnormal{\bf \large Statistics Exam: \myID}}%
-{\textnormal{\bf \large Statistics Exam: \myID}}
+\markboth{\textnormal{\bf \large ID: \myID}}%
+{\textnormal{\bf \large ID: \myID}}
 \pagestyle{myheadings}
 
 \begin{document}
 
-%% title page
-\thispagestyle{empty}
 {\sf
-\textbf{\LARGE{R University}}
-
-\textbf{\large{Statistics Exam \myDate \hfill Exam ID \myID}}
-
-\vspace*{2cm}
 
 \begin{tabular}{p{14cm}}
-\textbf{Name:} \hrule \\[1.5cm]
-\textbf{Student ID:} \hrule \\[1.5cm]
-\textbf{Signature:} \hrule  \\[1.5cm]
+\textbf{Name:} \hrule 
 \end{tabular}
 
-\vspace*{1cm}
+\begin{enumerate}
+%% \exinput{exercises}
+\end{enumerate}
 
 %% \exinput{questionnaire}
 }
-\newpage
 
-\begin{enumerate}
-
-%% \exinput{exercises}
-
-\end{enumerate}
 
 \end{document}

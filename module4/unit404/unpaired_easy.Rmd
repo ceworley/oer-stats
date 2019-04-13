@@ -1,0 +1,114 @@
+```{r data generation, echo = FALSE, results = "hide"}
+options(scipen=999)
+
+## DATA GENERATION
+## Rejects H0 about 55% of time...
+mag = sample(0:3,1)
+mu1 = signif(10^mag,3)
+sig1 = signif(mu1*runif(1,0.1,0.3),3)
+n1 = sample(8:40,1)
+se1 = sig1/sqrt(n1)
+sig2 = signif(mu1*runif(1,0.1,0.35),3)
+n2 = sample(8:40,1)
+
+##df = min(n1,n2)-1
+## df = (sig1^2/n1+sig2^2/n2)^2/(sig1^4/n1^2/(n1-1)+sig2^4/n2^2/(n2-1))
+df = floor((sig1^2/n1+sig2^2/n2)^2/(sig1^4/n1^2/(n1-1)+sig2^4/n2^2/(n2-1)))
+
+alpha = sample(c(0.1,0.05,0.04,0.02,0.01),1)
+gamma = signif(1-alpha,2)
+tstar = round(qt(1-alpha/2,df),2)
+
+mu2 = mu1+tstar*sqrt(sig1^2/n1+sig2^2/n2)
+mu2 = signif(mu2,3)
+
+if(sample(c(T,F),1)) {
+    sam1 = round(rnorm(n1,mu1,sig1),-mag+2)
+    sam2 = round(rnorm(n2,mu2,sig2),-mag+2)
+}else{
+    sam1 = round(rnorm(n2,mu2,sig2),-mag+2)
+    sam2 = round(rnorm(n1,mu1,sig1),-mag+2)
+}
+
+xbar1 = signif(mean(sam1),3)
+xbar2 = signif(mean(sam2),3)
+s1 = signif(sd(sam1),3)
+s2 = signif(sd(sam2),3)
+
+df = (s1^2/n1+s2^2/n2)^2/(s1^4/n1^2/(n1-1)+s2^4/n2^2/(n2-1))
+tstar = round(qt(1-alpha/2,df),2)
+SE = round(sqrt(s1^2/n1+s2^2/n2),3)
+
+bounds = c(xbar2-xbar1-tstar*SE, xbar2-xbar1+tstar*SE)
+LB = min(bounds)
+UB = max(bounds) 
+
+t = (xbar2-xbar1)/sqrt(s1^2/n1+s2^2/n2)
+if (abs(t)>tstar){
+    wrd = 'yes'
+    pin = '<'
+    tin = '>'
+    wrd2 = 'reject'
+    wrd3 = 'not'
+} else {
+    wrd = 'no'
+    pin = '>'
+    tin = '<'
+    wrd2 = 'retain'
+    wrd3 = ''
+}
+
+ps = c(1,0.2,0.1,0.05,0.04,0.02,0.01,0.005,0.004,0.002,0)
+pval = 2*(1-pt(abs(t),df))
+plow = max(ps[ps<pval])
+phigh= min(ps[ps>pval]) 
+```
+
+Question
+========
+
+A treatment group of size `r n1` has a mean of `r xbar1` and standard deviation of `r s1`. A control group of size `r n2` has a mean of `r xbar2` and standard deviation of `r s2`. If you decided to use a signficance level of `r alpha`, is there sufficient evidence to conclude the treatment causes an effect?
+
+I've calculated (using the Welch-Satterthwaite equation) the degrees of freedom should be `r floor(df)`.
+
+
+Answerlist
+----------
+
+* Determine $t^\star$ for a $`r signif(gamma*100,2)`\%$ confidence interval.
+* Determine $SE$.
+* Determine a lower bound of the $`r signif(100-alpha*100,2)`\%$ confidence interval of $\mu_2-\mu_1$.
+* Determine an upper bound of the $`r signif(100-alpha*100,2)`\%$ confidence interval of $\mu_2-\mu_1$.
+* Determine $|t_\text{obs}|$ under the null hypothesis $\mu_2-\mu_1=0$.
+* Determine a lower bound of the two-tail $p$-value.
+* Determine an upper bound of two-tail $p$-value.
+* Do you reject the null hypothesis with a two-tail test using a significance level $\alpha = `r alpha`$? (yes or no)
+
+
+
+Solution
+========
+
+Do it
+
+
+Answerlist
+----------
+
+* `r tstar`
+* `r round(SE,3)`
+* `r round(LB,3)`
+* `r round(UB,3)`
+* `r round(abs(t),3)`
+* `r plow`
+* `r phigh`
+* `r wrd`
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: num|num|num|num|num|num|num|string
+exsolution: `r tstar`|`r round(SE,3)`|`r round(LB,3)`|`r round(UB,3)`|`r round(abs(t),3)`|`r plow`|`r phigh`|`r wrd`
+exname: unpaired easy
+extol: 0.01
