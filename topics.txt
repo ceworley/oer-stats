@@ -81,6 +81,7 @@ Unit 4.4 - More Hyp. Testing
 Unit 4.5 - CI/Hyp Test Proportions
 ### Find the confidence interval for the binomial proportion p
 ### Determine the minimum sample size for estimating p to within a specified margin of error 
+### Determine two-tail, one-tail, or central probability given p
 ### Test for a proportion
 ### Test for the difference between two proportions
 

@@ -1,0 +1,101 @@
+---
+# title: "Review"
+# author: "Chad Worley"
+# date: "April 8, 2019"
+output:
+  html_document:
+    keep_md: yes
+  word_document: default
+  beamer_presentation: default
+---
+
+Let's remind ourselves where the formulas for standard error arise. If we have a population described by random variable $X$, then that population's mean is $E(X)$ and that population's standard deviation is $\sqrt{\text{Var}(X)$.
+
+
+## Problem 1
+1. There is a normal population $X$.
+$$X ~\sim~ \mathcal{N}\left(\mu=20\,,~\sigma=5 \right) $$
+Another population $Y$ is determined by $X$.
+$$Y ~\sim~ \frac{X}{7}+\frac{X}{7}+\frac{X}{7}+\frac{X}{7}+\frac{X}{7}+\frac{X}{7}+\frac{X}{7} $$
+
+
+## Problem 2
+2. You have two populations (random variables): $V$ and $W$.
+$$V ~~\sim~~ \mathcal{N}\left(\mu=99\,,~\sigma=31 \right)$$ 
+$$W ~~\sim~~ \mathcal{N}\left(\mu=77\,,~\sigma=11 \right)$$ 
+A (normal) population $X$ is determined by $V$ and $W$.
+$$X ~~\sim~~ \left(\frac{V}{3}+\frac{V}{3}+\frac{V}{3}\right)-\left(\frac{W}{6}+\frac{W}{6}+\frac{W}{6}+\frac{W}{6}+\frac{W}{6}+\frac{W}{6}\right)$$ 
+    a. Evaluate $\text{E}(X)$.
+    b. Evaluate $\text{Var}(X)$.
+    c. Evaluate $P(X>25)$.
+    d. Determine $x$ such that $P(X<x) = 0.888$.
+
+<div style="page-break-before: always;" />
+
+## Solution 2
+2.
+    a. Expected value follows basic rules. $E(aA+bB) = aE(A)+bE(B)$
+$$E(X) ~=~ 3 \left(\frac{E(V)}{3}\right) - 6 \left(\frac{E(W)}{6}\right) ~=~ E(V)-E(W) ~=~ 99-77 ~=~22$$
+    b. Variance has a more complicated rule. $Var(aA+bB)=a^2Var(A)+b^2Var(B)$
+    \begin{align*}
+    Var(X) ~&=~ 3 \left(\frac{Var(V)}{9}\right) + 6 \left(\frac{Var(W)}{36}\right)\\
+    &=~ \frac{Var(V)}{3}+\frac{Var(W)}{6} \\
+    &=~ \frac{31^2}{3}+\frac{11^2}{6} \\
+    &=~340.5
+    \end{align*}
+    c. 
+
+<div style="page-break-before: always;" />
+
+##Problem 3
+3. You have two populations (random variables): $V$ and $W$.
+$$V ~~\sim~~ \mathcal{N}\left(\mu=99\,,~\sigma=31 \right)$$ 
+$$W ~~\sim~~ \mathcal{N}\left(\mu=77\,,~\sigma=11 \right)$$ 
+A (normal) population $Y$ is determined by $V$ and $W$.
+$$Y ~~\sim~~ \frac{(V-W)+(V-W)+(V-W)+(V-W)}{4}$$
+    a. Evaluate $\text{E}(Y)$.
+    b. Evaluate $\text{Var}(Y)$.
+    c. Evaluate $P(Y>25)$.
+    d. Determine $y$ such that $P(Y<y) = 0.888$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ```{r setup, include=FALSE} -->
+<!-- # knitr::opts_chunk$set(echo = TRUE) -->
+<!-- ``` -->
+
+<!-- ## R Markdown -->
+
+<!-- This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. -->
+
+<!-- When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this: -->
+
+<!-- ```{r cars} -->
+<!-- summary(cars) -->
+<!-- ``` -->
+
+<!-- ## Including Plots -->
+
+<!-- You can also embed plots, for example: -->
+
+<!-- ```{r pressure, echo=FALSE} -->
+<!-- plot(pressure) -->
+<!-- ``` -->
+
+<!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->

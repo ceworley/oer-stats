@@ -1,0 +1,100 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+alpha = sample(c(0.1,0.05,0.025,0.02,0.01),1)
+zstar = qnorm(alpha)
+azs = abs(zstar)
+
+dis = 0.3
+dis2 = 2*dis/3
+
+while(T){
+    p = round(runif(1,0.09,0.91),3)
+    n = sample(1:10,1) * 10^sample(0:3,1)
+    se = signif(sqrt(p*(1-p)/n),3)
+    if (n*p>10 & n*(1-p)>10 & sqrt(n*p*(1-p))>7)
+    {
+        break
+    }
+}
+z = round(runif(1,azs-dis2,azs+dis),2) * sample(c(-1,1,1,1,1,1),1)
+phat = signif(p+z*se,3)
+z = round((phat-p)/se,2)
+Pr = 1-round(pnorm(z),4)
+wrd = sample(c('sad','angry','special','greedy','bad','great','strong','happy','popular','cold'),1)
+wrd2 = sample(c('more than', 'over', 'above'),1)
+
+if (Pr<alpha)
+{
+    wrd3 = 'reject'
+    sym = '<'
+} else {
+    wrd3 = 'retain'
+    sym = '>'
+}
+
+```
+
+Question
+========
+
+It is generally accepted that a population's proportion is `r p`. However, you think that maybe the population proportion is `r wrd2` `r p`, so you decide to run a one-tail hypothesis test with a significance level of `r alpha` with a sample size of `r n`.
+
+Then, when you collect the random sample, you find its proportion is `r phat`. Do you reject or retain the null hypothesis?
+
+Answerlist
+--------
+* Determine the $p$-value.
+* Decide whether we reject or retain the null hypothesis.
+
+
+Solution
+========
+
+State the hypotheses.
+$$H_0: ~~ p = `r p` $$
+$$H_\text{A}: ~~ p > `r p`$$
+Determine the standard error.
+$$SE = \sqrt{\frac{p_0(1-p_0)}{n}} = \sqrt{\frac{`r p`(1-`r p`)}{`r n`}} = `r se` $$
+Determine a $z$ score. For simplicity, we ignore the continuity correction.
+$$z = \frac{\hat{p}-p_0}{SE} = \frac{`r phat`-`r p`}{`r se`} = `r z` $$
+The $p$-value is a right area ("`r wrd2`").
+
+```{r p_single_test_right, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(signif(p+(-3:3)*se,3),side=1,line=0.5,at=-3:3)
+mtext(c("phat="),line=0.5,side=1,at=-3.6)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.6)
+polygon(c(zs[zs>=z], 3, z),c(ys[zs>=z], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l',lwd=1)
+```
+
+To determine that right area, we use the z table.
+$$\text{Pr}\left(\hat{P} > `r phat`\right) ~=~ 1-\Phi(`r z`) ~=~ `r Pr` $$
+In other words:
+$$p\text{-value} = `r Pr`$$
+Compare $p$-value to $\alpha$ (which is `r alpha`).
+$$p\text{-value} `r sym` \alpha $$
+Make the conclusion: we `r wrd3` the null hypothesis.
+
+
+Answerlist
+--------
+* The $p$-value is `r Pr`
+* We `r wrd3` the null hypothesis.
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: num|string
+exsolution: `r Pr`|`r wrd3`
+exname: p hyp test right
+extol: 0.01

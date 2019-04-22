@@ -1,0 +1,187 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{}
+    \pretitle{\vspace{\droptitle}}
+  \posttitle{}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+
+Let's remind ourselves where the formulas for standard error arise. If
+we have a population described by random variable \(X\), then that
+population's mean is \(E(X)\) and that population's standard deviation
+is \(\sqrt{\text{Var}(X)\).
+
+\subsection{Problem 1}\label{problem-1}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  There is a normal population \(X\).
+  \[X ~\sim~ \mathcal{N}\left(\mu=20\,,~\sigma=5 \right) \] Another
+  population \(Y\) is determined by \(X\).
+  \[Y ~\sim~ \frac{X}{7}+\frac{X}{7}+\frac{X}{7}+\frac{X}{7}+\frac{X}{7}+\frac{X}{7}+\frac{X}{7} \]
+\end{enumerate}
+
+\subsection{Problem 2}\label{problem-2}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  You have two populations (random variables): \(V\) and \(W\).
+  \[V ~~\sim~~ \mathcal{N}\left(\mu=99\,,~\sigma=31 \right)\]
+  \[W ~~\sim~~ \mathcal{N}\left(\mu=77\,,~\sigma=11 \right)\] A (normal)
+  population \(X\) is determined by \(V\) and \(W\).
+  \[X ~~\sim~~ \left(\frac{V}{3}+\frac{V}{3}+\frac{V}{3}\right)-\left(\frac{W}{6}+\frac{W}{6}+\frac{W}{6}+\frac{W}{6}+\frac{W}{6}+\frac{W}{6}\right)\]
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii}.}
+  \tightlist
+  \item
+    Evaluate \(\text{E}(X)\).
+  \item
+    Evaluate \(\text{Var}(X)\).
+  \item
+    Evaluate \(P(X>25)\).
+  \item
+    Determine \(x\) such that \(P(X<x) = 0.888\).
+  \end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\subsection{Solution 2}\label{solution-2}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii}.}
+  \item
+    Expected value follows basic rules. \(E(aA+bB) = aE(A)+bE(B)\)
+    \[E(X) ~=~ 3 \left(\frac{E(V)}{3}\right) - 6 \left(\frac{E(W)}{6}\right) ~=~ E(V)-E(W) ~=~ 99-77 ~=~22\]
+  \item
+    Variance has a more complicated rule.
+    \(Var(aA+bB)=a^2Var(A)+b^2Var(B)\)
+
+    \begin{align*}
+    Var(X) ~&=~ 3 \left(\frac{Var(V)}{9}\right) + 6 \left(\frac{Var(W)}{36}\right)\\
+    &=~ \frac{Var(V)}{3}+\frac{Var(W)}{6} \\
+    &=~ \frac{31^2}{3}+\frac{11^2}{6} \\
+    &=~340.5
+    \end{align*}
+  \item
+  \end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\subsection{Problem 3}\label{problem-3}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  You have two populations (random variables): \(V\) and \(W\).
+  \[V ~~\sim~~ \mathcal{N}\left(\mu=99\,,~\sigma=31 \right)\]
+  \[W ~~\sim~~ \mathcal{N}\left(\mu=77\,,~\sigma=11 \right)\] A (normal)
+  population \(Y\) is determined by \(V\) and \(W\).
+  \[Y ~~\sim~~ \frac{(V-W)+(V-W)+(V-W)+(V-W)}{4}\]
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii}.}
+  \tightlist
+  \item
+    Evaluate \(\text{E}(Y)\).
+  \item
+    Evaluate \(\text{Var}(Y)\).
+  \item
+    Evaluate \(P(Y>25)\).
+  \item
+    Determine \(y\) such that \(P(Y<y) = 0.888\).
+  \end{enumerate}
+\end{enumerate}
+
+
+\end{document}
