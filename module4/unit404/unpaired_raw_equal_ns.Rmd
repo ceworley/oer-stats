@@ -47,12 +47,20 @@ phigh= min(ps[ps>pval])
 Question
 ========
 
-With the two samples below, using a significance level $\alpha = `r alpha`$, determine whether the difference of means is signficantly far from 0. To do so, calculate $t^{\star}$ and $t_\text{obs}$. (Please assume $df=\text{min}(n_1,n_2)-1$.)
+You've collected two samples. 
 
 | | value`r paste(1:n1,collapse='| value')` |
 `r paste(rep("|",n1+2),collapse=":---:")`
 `r paste(c("sample 1:",sam1),collapse=" | ")`
 `r paste(c("sample 2:",sam2),collapse=" | ")`
+
+You wonder whether the difference of means is signficantly far from 0.
+$$H_0:~~ \mu_2-\mu_1=0 $$
+$$H_0:~~ \mu_2-\mu_1\ne 0 $$
+
+Please complete the hypothesis test using a significance level $\alpha = `r alpha`$. (For unpaired $t$-tests, assume $df=\text{min}(n_1,n_2)-1$.)
+
+
 
 
 <!-- 

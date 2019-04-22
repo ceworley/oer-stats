@@ -1,0 +1,94 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+alpha = sample(c(0.2,0.1,0.05,0.04,0.02,0.01),1)
+zstar = abs(qnorm(alpha/2))
+while(T){
+    p = round(runif(1,0.09,0.91),3)
+    n = sample(1:10,1) * 10^sample(0:3,1)
+    se = signif(sqrt(p*(1-p)/n),3)
+    if (n*p>10 & n*(1-p)>10 & sqrt(n*p*(1-p))>7)
+    {
+        break
+    }
+}
+z = round(runif(1,zstar-0.3,zstar+0.3),2) * sample(c(-1,1),1)
+phat = signif(p+z*se,3)
+z = round((phat-p)/se,2)
+Pr = 2*round(pnorm(-abs(z)),4)
+wrd2 = sample(c('not', 'not equal to', 'different than'),1)
+if (Pr<alpha)
+{
+    wrd3 = 'reject'
+    sym = '<'
+} else {
+    wrd3 = 'retain'
+    sym = '>'
+}
+
+```
+
+Question
+========
+
+It is generally accepted that a population's proportion is `r p`. However, you think that maybe the population proportion is `r wrd2` `r p`, so you decide to run a two-tail hypothesis test with a significance level of `r alpha` with a sample size of `r n`.
+
+Then, when you collect the random sample, you find its proportion is `r phat`. Do you reject or retain the null hypothesis?
+
+Answerlist
+--------
+* Determine the $p$-value.
+* Decide whether we reject or retain the null hypothesis.
+
+
+Solution
+========
+
+State the hypotheses.
+$$H_0: ~~ p = `r p` $$
+$$H_\text{A}: ~~ p \ne `r p`$$
+Determine the standard error.
+$$SE = \sqrt{\frac{p_0(1-p_0)}{n}} = \sqrt{\frac{`r p`(1-`r p`)}{`r n`}} = `r se` $$
+Determine a $z$ score. For simplicity, we ignore the continuity correction.
+$$z = \frac{\hat{p}-p_0}{SE} = \frac{`r phat`-`r p`}{`r se`} = `r z` $$
+The $p$-value is a two-tail area.
+
+```{r p_single_test_twotail, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(signif(p+(-3:3)*se,3),side=1,line=0.5,at=-3:3)
+mtext(c("phat="),line=0.5,side=1,at=-3.6)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.6)
+polygon(c(zs[zs<=-abs(z)], -abs(z), -3),c(ys[zs<=-abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+polygon(c(zs[zs>=abs(z)], 3, abs(z)),c(ys[zs>=abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l',lwd=1)
+```
+
+To determine that two-tail area, we use the z table.
+$$\text{Pr}\left(\hat{P} > `r phat`\right) ~=~ 2\cdot \Phi(`r -abs(z)`) ~=~ `r Pr` $$
+In other words:
+$$p\text{-value} = `r Pr`$$
+Compare $p$-value to $\alpha$ (which is `r alpha`).
+$$p\text{-value} `r sym` \alpha $$
+Make the conclusion: we `r wrd3` the null hypothesis.
+
+
+Answerlist
+--------
+* The $p$-value is `r Pr`
+* We `r wrd3` the null hypothesis.
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: num|string
+exsolution: `r Pr`|`r wrd3`
+exname: p hyp test twotail
+extol: 0.01

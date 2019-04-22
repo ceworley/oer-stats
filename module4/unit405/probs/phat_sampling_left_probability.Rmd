@@ -1,0 +1,63 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+while(T){
+    p = round(runif(1,0.09,0.91),3)
+    n = sample((1:50) *100,1)
+    se = signif(sqrt(p*(1-p)/n),3)
+    if (n*p>10 & n*(1-p)>10 & sqrt(n*p*(1-p))>10)
+    {
+        break
+    }
+}
+z = round(runif(1,0.2,2.5),2) * sample(c(-1,1),1)
+phat = round(p+z*se,3)
+z = round((phat-p)/se,2)
+Pr = round(pnorm(z),4)
+wrd = sample(c('sad','angry','special','greedy','bad','great','strong','happy','popular','cold'),1)
+wrd2 = sample(c('less than', 'at most', 'under', 'below'),1)
+```
+
+Question
+========
+
+In a very large population, `r p*100`% are `r wrd`. When a random sample of size `r n` is taken, what is the chance that `r wrd2` `r 100*phat`% of the sample is `r wrd`?
+
+
+Solution
+========
+
+Determine the standard error.
+$$SE = \sqrt{\frac{p(1-p)}{n}} = \sqrt{\frac{`r p`(1-`r p`)}{`r n`}} = `r se` $$
+Determine a $z$ score. For simplicity, we ignore the continuity correction.
+$$z = \frac{\hat{p}-p}{SE} = \frac{`r phat`-`r p`}{`r se`} = `r z` $$
+We are looking for a left area ("`r wrd2` `r 100*phat`%").
+
+```{r phat_sampling_left, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(p+(-3:3)*se,side=1,line=0.5,at=-3:3)
+mtext(c("phat="),line=0.5,side=1,at=-3.6)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.6)
+polygon(c(zs[zs<=z], z, -3),c(ys[zs<=z], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l',lwd=1)
+```
+
+To determine that left area, we use the z table.
+$$\text{Pr}\left(\hat{P} < `r phat`\right) ~=~ \Phi(`r z`) ~=~ `r Pr` $$
+Thus, we conclude there is a `r signif(100*Pr,3)`% chance that the sample proportion is `r wrd2` `r 100*phat`%. 
+
+
+
+Meta-information
+============
+extype: num
+exsolution: `r Pr`
+exname: phat sampling left prob
+extol: 0.01
