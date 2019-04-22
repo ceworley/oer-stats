@@ -1,0 +1,84 @@
+```{r data generation, echo = FALSE, results = "hide"}
+options(scipen=999)
+## DATA GENERATION
+while(T)
+{
+    phat1 = round(runif(1,0.01,0.99),3)
+    phat2 = round(runif(1,0.01,0.99),3)
+    dphat = phat2-phat1
+    n1 = sample(1:10,1)*10^sample(1:3,1)
+    n2 = sample(1:10,1)*10^sample(1:3,1)
+    se = signif(sqrt(phat1*(1-phat1)/n1+phat2*(1-phat2)/n2),3)
+    is_norm1 = (phat1*n1>10 & (1-phat1)*n1>10)
+    is_norm2 = (phat2*n2>10 & (1-phat2)*n2>20)
+    if(is_norm1 & is_norm2 & se>0.005)
+    {
+        break
+    }
+}
+CL = sample(c(0.8,0.9,0.95,0.96,0.98,0.99,0.995),1)
+z = round(qnorm((CL+1)/2),2)
+LB = signif(dphat-z*se,3)
+UB = signif(dphat+z*se,3)
+adj = sample(c("cold","angry","sorry","abysmal",
+               "happy", "preoccupied", "sick", "green",
+               "fluorescent", "folksy", "reclusive", "omnivorous",
+               "special"), 1)
+```
+
+
+Question
+========
+
+In one sample of `r n1` cases, `r 100*phat1`% are `r adj` ($\hat{p}_1 = `r phat1`$). In a second sample of `r n2` cases, `r 100*phat2`% are `r adj` ($\hat{p}_2 = `r phat2`$). Determine a `r CL*100`% confidence interval of $p_2 - p_1$.
+
+Answerlist
+--------
+* Determine the lower bound.
+* Determine the upper bound.
+
+
+Solution
+========
+
+Determine the point estimate of $p_2-p_1$ (our best guess for this population parameter is the corresponding sample statistic).
+\begin{align*}
+\hat{p}_2 - \hat{p}_1 &= `r phat2` - `r phat1` \\
+ &= `r dphat`
+\end{align*}
+Determine the critical $z^\star$ value such that $P(|Z|<z^\star) = `r CL`$.
+ $$z^\star = `r z`$$
+Determine the standard error.
+\begin{align*}
+SE &= \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1}+\frac{\hat{p}_2(1-\hat{p}_2)}{n_2}} \\\\
+&= \sqrt{\frac{(`r phat1`)(`r 1-phat1`)}{`r n1`}+\frac{(`r phat2`)(`r 1-phat2`)}{`r n2`}}\\\\
+&= `r se`
+\end{align*}
+Determine the lower bound.
+\begin{align*}
+LB &= \text{point estimate} - ME \\
+&= (\hat{p}_2 - \hat{p}_1) - z^\star SE \\
+&= `r dphat` - (`r z`)(`r se`) \\
+&= `r LB`
+\end{align*}
+Determine the upper bound.
+\begin{align*}
+UB &= \text{point estimate} + ME \\
+&= (\hat{p}_2 - \hat{p}_1) + z^\star SE \\
+&= `r dphat` + (`r z`)(`r se`) \\
+&= `r UB`
+\end{align*}
+
+Answerlist
+--------
+* The lower bound = `r LB`
+* The upper bound = `r UB`
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: num|num
+exsolution: `r LB`|`r UB`
+exname: p diff CI
+extol: 0.01

@@ -1,0 +1,52 @@
+---
+title: "Two-mean resampling"
+output: html_document
+---
+
+# Actual difference of sample means
+You have two samples.
+```{r setup}
+sam1 = c(4.6, 6.5, 5.5, 6.1, 6.2)
+sam2 = c(3.7, 4.9, 3.9)
+```
+Determine their sizes and means.
+```{r sample sizes and means}
+n1 = length(sam1)
+n2 = length(sam2)
+xbar1 = mean(sam1)
+xbar2 = mean(sam2)
+```
+Find the actual difference of sample means.
+```{r actual difference of sample means}
+adosm = xbar2-xbar1
+```
+
+
+
+# Resample
+We shuffle the two groups together, resplit, mark the resampling difference of means, repeat.
+
+
+```{r resample}
+nresample = 10000
+combined = c(sam1, sam2)
+rdiffs = c()   #How to make empty list
+for (rep in 1:nresample){
+  shuffled = sample(combined) #reorder the numbers
+  rsam1 = shuffled[1:n1] 
+  rsam2 = shuffled[(n1+1):(n1+n2)]
+  rdiff = mean(rsam2)-mean(rsam1)
+  rdiffs = c(rdiffs,rdiff)
+}
+hist(rdiffs)
+pval = sum(abs(rdiffs) >= abs(adosm)) / (nresample)
+print(pval)
+qqnorm(rdiffs)
+```
+
+
+# Two-sample T test
+We might as well compare our resampling test to a t-test.
+```{r}
+t.test(sam1,sam2)
+```
