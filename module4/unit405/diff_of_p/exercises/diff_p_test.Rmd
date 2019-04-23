@@ -3,7 +3,7 @@ options(scipen=999)
 ## DATA GENERATION
 alpha = sample(c(0.2,0.1,0.05,0.04,0.02,0.01,0.005),1)
 zstar = qnorm(1-alpha/2)
-z = round(zstar + runif(1,-0.3,0.3),2)
+z = round(zstar + runif(1,0.1,0.3),2)*sample(c(-1,1),1)
 while(T)
 {
     p1 = round(runif(1,0.01,0.99),3)
