@@ -18,7 +18,7 @@
 
 %% new environments
 \newenvironment{question}{\item \textbf{Problem}\newline}{\newpage}
-\newenvironment{solution}{\comment}{\endcomment}
+\newenvironment{solution}{\textbf{Solution}\newline}{\newpage}
 \newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
 
 
@@ -33,13 +33,6 @@
 }{}
 
 
-\newcommand{\exnum}[9]{
-  #1#2#3#4#5#6.#7#8#9\ignorespaces%
-}
-\newcommand{\exstring}[1]{
-  #1%
-}
-
 \begin{document}
 
 \begin{enumerate}
@@ -47,9 +40,5 @@
 %% \exinput{exercises}
 
 \end{enumerate}
-
-\newpage
-
-%% \exinput{questionnaire}
 
 \end{document}

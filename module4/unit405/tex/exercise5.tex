@@ -1,0 +1,23 @@
+
+\begin{question}
+If you suspect that \(\hat{p}\) will be near 0.33, how large of a sample
+is needed to guarantee a margin of error less than 0.01 when building a
+99.5\% confidence interval?
+\end{question}
+
+\begin{solution}
+Determine \(z^\star\) such that \(P(|Z|<z^\star) = 0.995\).
+\[z^\star = 2.81\] Determine the maximal standard error.
+\[ME = z^\star SE \]
+
+\[SE = \frac{ME}{z^\star} = \frac{0.01}{2.81} = 0.00356 \] Calculate
+\(n\). Because we have no idea what \(p\) is, we will use a conservative
+approach and use \(p=0.5\). \[SE = \sqrt{\frac{p(1-p)}{n}}\]
+
+\[n = \frac{p(1-p)}{SE^2} = \frac{(0.33)(0.67)}{(0.00356)^2} = 17445.713925\]
+
+When determining a necessary sample size, always round up (ceiling).
+\[n = 17446 \] Also, for simplicity, you should probably only use about
+2 significant digits, while still rounding up. \[n = 18000 \]
+\end{solution}
+
