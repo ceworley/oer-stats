@@ -6,8 +6,8 @@ while(T)
     phat1 = round(runif(1,0.01,0.99),3)
     phat2 = round(runif(1,0.01,0.99),3)
     dphat = phat2-phat1
-    n1 = sample(1:10,1)*10^sample(1:3,1)
-    n2 = sample(1:10,1)*10^sample(1:3,1)
+    n1 = sample(1:10,1)*10^sample(1:2,1)
+    n2 = sample(1:10,1)*10^sample(1:2,1)
     se = signif(sqrt(phat1*(1-phat1)/n1+phat2*(1-phat2)/n2),3)
     is_norm1 = (phat1*n1>10 & (1-phat1)*n1>10)
     is_norm2 = (phat2*n2>10 & (1-phat2)*n2>20)
@@ -42,32 +42,41 @@ Solution
 ========
 
 Determine the point estimate of $p_2-p_1$ (our best guess for this population parameter is the corresponding sample statistic).
-\begin{align*}
+$$
+\begin{aligned}
 \hat{p}_2 - \hat{p}_1 &= `r phat2` - `r phat1` \\
  &= `r dphat`
-\end{align*}
+\end{aligned}
+$$
 Determine the critical $z^\star$ value such that $P(|Z|<z^\star) = `r CL`$.
  $$z^\star = `r z`$$
 Determine the standard error.
-\begin{align*}
+$$
+\begin{aligned}
 SE &= \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1}+\frac{\hat{p}_2(1-\hat{p}_2)}{n_2}} \\\\
 &= \sqrt{\frac{(`r phat1`)(`r 1-phat1`)}{`r n1`}+\frac{(`r phat2`)(`r 1-phat2`)}{`r n2`}}\\\\
 &= `r se`
-\end{align*}
+\end{aligned}
+$$
 Determine the lower bound.
-\begin{align*}
+$$
+\begin{aligned}
 LB &= \text{point estimate} - ME \\
 &= (\hat{p}_2 - \hat{p}_1) - z^\star SE \\
 &= `r dphat` - (`r z`)(`r se`) \\
 &= `r LB`
-\end{align*}
+\end{aligned}
+$$
 Determine the upper bound.
-\begin{align*}
+$$
+\begin{aligned}
 UB &= \text{point estimate} + ME \\
 &= (\hat{p}_2 - \hat{p}_1) + z^\star SE \\
 &= `r dphat` + (`r z`)(`r se`) \\
 &= `r UB`
-\end{align*}
+\end{aligned}
+$$
+We are `r CL*100`% confident that $p_2-p_1$ is between `r LB` and `r UB`.
 
 Answerlist
 --------

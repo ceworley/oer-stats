@@ -7,12 +7,18 @@
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{\textsc{BHCC Mat-181}}
-\rhead{\textsc{Difference of proportions}}
+\rhead{\textsc{Difference of Proportions}}
+
+\usepackage{caption}
+\captionsetup[figure]{labelformat=empty}
+
+\usepackage{float}
+\floatplacement{figure}{H}
 
 
 %% new environments
 \newenvironment{question}{\item \textbf{Problem}\newline}{\newpage}
-\newenvironment{solution}{\textbf{Solution}\newline}{\newpage}
+\newenvironment{solution}{\comment}{\endcomment}
 \newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
 
 
@@ -26,6 +32,12 @@
   \renewcommand{\rmdefault}{phv}
 }{}
 
+%\newcommand{\exnum}[1]{%
+%  #1%
+%}
+%\newcommand{\exstring}[1]{%
+%  #1}%
+%}
 
 \begin{document}
 
@@ -34,5 +46,8 @@
 %% \exinput{exercises}
 
 \end{enumerate}
+
+\newpage
+%% \exinput{questionnaire}
 
 \end{document}
