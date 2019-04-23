@@ -60,7 +60,7 @@ adj = sample(c("cold","angry","sorry","abysmal",
 Question
 ========
 
-An experiment is run with a control group of size `r n1` and a treatment group of size `r n2`. The results are summarized in the table below.
+An experiment is run with a treatment group of size `r n1` and a control group of size `r n2`. The results are summarized in the table below.
 
 |             | treatment | control | 
 |:-----------:|:---------:|:-------:|
