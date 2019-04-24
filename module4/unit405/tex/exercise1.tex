@@ -1,20 +1,20 @@
 
 \begin{question}
-An experiment is run with a treatment group of size 157 and a control
-group of size 180. The results are summarized in the table below.
+An experiment is run with a treatment group of size 221 and a control
+group of size 270. The results are summarized in the table below.
 
-\begin{longtable}[]{@{}ccc@{}}
+\begin{longtable}[c]{@{}ccc@{}}
 \toprule
 & treatment & control\tabularnewline
 \midrule
 \endhead
-special & 52 & 77\tabularnewline
-not special & 105 & 103\tabularnewline
+cold & 112 & 111\tabularnewline
+not cold & 109 & 159\tabularnewline
 \bottomrule
 \end{longtable}
 
 Using a significance level of 0.04, determine whether the treatment
-causes an effect on the proportion of cases that are special.
+causes an effect on the proportion of cases that are cold.
 \begin{answerlist}
   \item Determine a \(p\)-value.
   \item Does the treatment have a significant effect? (yes or no)
@@ -24,38 +24,38 @@ causes an effect on the proportion of cases that are special.
 \begin{solution}
 State the hypotheses. \[H_0:~~ p_2-p_1 = 0 \]
 \[H_\text{A}: ~~ p_2-p_1 \ne 0 \] Determine the sample proportions.
-\[\hat{p}_1 = \frac{52}{157} = 0.331 \]
-\[\hat{p}_2 = \frac{77}{180} = 0.428 \] Determine the difference of
-sample proportions. \[\hat{p}_2-\hat{p}_1 = 0.428-0.331 = 0.097 \]
+\[\hat{p}_1 = \frac{112}{221} = 0.507 \]
+\[\hat{p}_2 = \frac{111}{270} = 0.411 \] Determine the difference of
+sample proportions. \[\hat{p}_2-\hat{p}_1 = 0.411-0.507 = -0.096 \]
 Determine the pooled proportion (because the null assumes the population
-proportions are equal). \[ \hat{p} = \frac{52+77}{157+180} = 0.383 \]
+proportions are equal). \[ \hat{p} = \frac{112+111}{221+270} = 0.454 \]
 Determine the standard error. \[
 \begin{aligned}
 SE &= \sqrt{\frac{\hat{p}(1-\hat{p})}{n_1}+\frac{\hat{p}(1-\hat{p})}{n_2}} \\[1em]
-&= \sqrt{\frac{(0.383)(0.617)}{157}+\frac{(0.383)(0.617)}{180}} \\[1em]
-&= 0.0531
+&= \sqrt{\frac{(0.454)(0.546)}{221}+\frac{(0.454)(0.546)}{270}} \\[1em]
+&= 0.0452
 \end{aligned}
 \] We can be more specific about what the null hypothesis claims.
-\[H_0:~~~~ \hat{P}_2-\hat{P}_1 ~\sim~ \mathcal{N}(0,\,0.0531)\] We want
+\[H_0:~~~~ \hat{P}_2-\hat{P}_1 ~\sim~ \mathcal{N}(0,\,0.0452)\] We want
 to describe how unusual our observation is under the null by finding the
 \(p\)-value. To do so, first find the \(z\) score. \[
 \begin{aligned}
 z &= \frac{(\hat{p}_2-\hat{p}_1)-(p_2-p_1)_0}{SE}\\
-&= \frac{(0.428-0.331)-0}{0.0531} \\
-&= 1.83
+&= \frac{(0.411-0.507)-0}{0.0452} \\
+&= -2.12
 \end{aligned}
 \] Determine the \(p\)-value. \[
 \begin{aligned}
 p\text{-value} &= 2\cdot \Phi(-|z|)\\
-&= 2\cdot \Phi(-1.83)\\
-&= 0.0672
+&= 2\cdot \Phi(-2.12)\\
+&= 0.034
 \end{aligned}
 \] Compare the \(p\)-value to the signficance level.
-\[ p\text{-value} > \alpha \] So, we retain the null hypothesis. Thus
-the difference in proportions is not significant.
+\[ p\text{-value} < \alpha \] So, we reject the null hypothesis. Thus
+the difference in proportions is significant.
 \begin{answerlist}
-  \item The \(p\)-value = 0.0672
-  \item We retain the null, so no
+  \item The \(p\)-value = 0.034
+  \item We reject the null, so yes
 \end{answerlist}
 \end{solution}
 

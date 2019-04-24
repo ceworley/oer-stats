@@ -1,8 +1,9 @@
 
 \begin{question}
-In one sample of 200 cases, 39\% are folksy (\(\hat{p}_1 = 0.39\)). In a
-second sample of 50 cases, 40.4\% are folksy (\(\hat{p}_2 = 0.404\)).
-Determine a 99.5\% confidence interval of \(p_2 - p_1\).
+In one sample of 100 cases, 40.4\% are fluorescent
+(\(\hat{p}_1 = 0.404\)). In a second sample of 400 cases, 18.5\% are
+fluorescent (\(\hat{p}_2 = 0.185\)). Determine a 98\% confidence
+interval of \(p_2 - p_1\).
 \begin{answerlist}
   \item Determine the lower bound.
   \item Determine the upper bound.
@@ -13,35 +14,35 @@ Determine a 99.5\% confidence interval of \(p_2 - p_1\).
 Determine the point estimate of \(p_2-p_1\) (our best guess for this
 population parameter is the corresponding sample statistic). \[
 \begin{aligned}
-\hat{p}_2 - \hat{p}_1 &= 0.404 - 0.39 \\
- &= 0.014
+\hat{p}_2 - \hat{p}_1 &= 0.185 - 0.404 \\
+ &= -0.219
 \end{aligned}
 \] Determine the critical \(z^\star\) value such that
-\(P(|Z|<z^\star) = 0.995\). \[z^\star = 2.81\] Determine the standard
+\(P(|Z|<z^\star) = 0.98\). \[z^\star = 2.33\] Determine the standard
 error. \[
 \begin{aligned}
 SE &= \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1}+\frac{\hat{p}_2(1-\hat{p}_2)}{n_2}} \\\\
-&= \sqrt{\frac{(0.39)(0.61)}{200}+\frac{(0.404)(0.596)}{50}}\\\\
-&= 0.0775
+&= \sqrt{\frac{(0.404)(0.596)}{100}+\frac{(0.185)(0.815)}{400}}\\\\
+&= 0.0528
 \end{aligned}
 \] Determine the lower bound. \[
 \begin{aligned}
 LB &= \text{point estimate} - ME \\
 &= (\hat{p}_2 - \hat{p}_1) - z^\star SE \\
-&= 0.014 - (2.81)(0.0775) \\
-&= -0.204
+&= -0.219 - (2.33)(0.0528) \\
+&= -0.342
 \end{aligned}
 \] Determine the upper bound. \[
 \begin{aligned}
 UB &= \text{point estimate} + ME \\
 &= (\hat{p}_2 - \hat{p}_1) + z^\star SE \\
-&= 0.014 + (2.81)(0.0775) \\
-&= 0.232
+&= -0.219 + (2.33)(0.0528) \\
+&= -0.096
 \end{aligned}
-\] We are 99.5\% confident that \(p_2-p_1\) is between -0.204 and 0.232.
+\] We are 98\% confident that \(p_2-p_1\) is between -0.342 and -0.096.
 \begin{answerlist}
-  \item The lower bound = -0.204
-  \item The upper bound = 0.232
+  \item The lower bound = -0.342
+  \item The upper bound = -0.096
 \end{answerlist}
 \end{solution}
 

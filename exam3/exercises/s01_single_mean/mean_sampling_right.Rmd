@@ -15,7 +15,7 @@ Pr = round(1-pnorm(z),3)
 Question
 ========
 
-A roughly symmetric population has a mean $\mu = `r mu`$ and standard deviation $\sigma = `r sig`$. What is the probability that a sample of size $n = `r n`$ has a mean more than $`r x`$?
+A roughly symmetric population has a mean $\mu = `r mu`$ and standard deviation $\sigma = `r sig`$. What is the probability that a sample of size $n = `r n`$ has a mean above $`r x`$?
 
 
 Solution
@@ -37,19 +37,19 @@ plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
      lwd=1,bty='n')
 axis(side=1, line=0, at=-3:3, labels = FALSE)
 mtext(mu+(-3:3)*se,side=1,line=0.5,at=-3:3)
-mtext(c("xbar="),line=0.5,side=1,at=-3.5)
+mtext(TeX("$\\bar{x}=$"),line=0.5,side=1,at=-3.5)
 axis(side=1, line=2,at=-3:3, labels = FALSE)
 mtext(-3:3,side=1,line=2.5,at=-3:3)
-mtext(c("z="),line=2.5,side=1,at=-3.5)
+mtext(TeX("$z=$"),line=2.5,side=1,at=-3.5)
 polygon(c(zs[zs>=z], 3, z),c(ys[zs>=z], 0, 0), col=rgb(1,0,0,0.5))
 lines(c(-3,3),c(0,0),'l')
-text(2,0.3,label=sprintf("area = P(Xbar > %0.2f)",x))
+text(2,0.3,label=TeX(sprintf("area = $P(\\bar{X} > %0.2f)$",x)))
 ```
 
 Calculate a $z$ score.
 $$z = \frac{`r x`-`r mu`}{`r se`} = `r z` $$
 Determine the probability.
-$$P(X>`r x`) = `r Pr` $$
+$$P(\bar{X}>`r x`) = `r Pr` $$
 
 
 Meta-information

@@ -1,0 +1,78 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+options(scipen=999)
+while(T)
+{
+    dfs = c(6:49, seq(50,95,5), seq(100,500,25))
+    df = sample(dfs,1)
+    n = df+1
+    cls = c(0.8,0.9,0.95,0.96,0.98,0.99,0.995)
+    cl = sample(cls,1)
+    alpha = 1-cl
+    tstar = round(qt((cl+1)/2,df),2)
+    mu0 = signif(runif(1,1,10)*10^sample(0:3,1),2)
+    rej = sample(c(T,F),1)
+    if(rej)
+    {
+        t = round(runif(1,tstar*1.05,tstar*1.5),2) * sample(c(-1,1),1)
+        conclusion = "Reject the null hypothesis."
+        wrd = "reject"
+        sym = ">"
+    } else {
+        t = round(runif(1,tstar*0.5,tstar*0.95),2) * sample(c(-1,1),1)
+        conclusion = "Retain the null hypothesis."
+        wrd = "retain"
+        sym = "<"
+    }
+    s = signif(runif(1,mu0/10,mu0/3),3)
+    se = signif(s/sqrt(n),3)
+    xbar = signif(mu0+t*se,3)
+    t = round((xbar-mu0)/se,2)
+    if(xbar>0 & abs(abs(t)-tstar)>0.01)
+    {
+        break
+    }
+}
+```
+
+Question
+========
+
+A null hypothesis claims a population has a mean `r mu0`. You decide to perform a two-tail hypothesis test with significance level `r alpha`. Your (roughly symmetric) sample of size `r n` has mean `r xbar` and standard deviation `r s`. Should we reject or retain the null hypothesis?
+
+
+Solution
+========
+
+We are given sample size, sample mean, sample standard deviation, significance level, and null mean.
+$$
+\begin{aligned}
+n &= `r n` \\
+\bar{x} &= `r xbar` \\
+s &= `r s`\\
+\alpha &= `r alpha` \\
+\mu_0 &= `r mu0`
+\end{aligned}
+$$
+State the hypotheses.
+$$H_0:~~\mu=`r mu0` $$
+$$H_\text{A}:~~\mu\ne`r mu0` $$
+Find the degrees of freedom (because we don't know $\sigma$ and we are doing inference so we need to use the $t$ distribution).
+$$df = n-1 = `r df` $$
+Determine a critical value $t^\star$ such that $P(|T|>t^\star)=`r alpha`$.
+$$t^{\star} = `r tstar`$$
+Find the standard error.
+$$SE = \frac{s}{\sqrt{n}} = \frac{`r s`}{\sqrt{`r n`}} = `r se` $$
+Find the test statistic from the observed mean.
+$$t_{\text{obs}} = \frac{`r xbar`-`r mu0`}{`r se`} = `r t` $$
+Compare $|t_\text{obs}|$ and $t^\star$ to make a conclusion.
+$$|t_{\text{obs}}| `r sym` t^{\star} $$
+Thus, we `r wrd` the null hypothesis.
+
+
+Meta-information
+============
+extype: string
+exsolution: conclusion
+exname: mean test twotail
+extol: 0.01

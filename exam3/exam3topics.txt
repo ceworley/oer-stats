@@ -1,9 +1,8 @@
 ??? single draw from normal prob ???
 
-@ sampling single mean (left and right done)
-ci single mean
-@ test single mean
-get n for ME < x
+# sampling single mean
+# ci single mean
+# test single mean
 
 ci mean of differences
 test mean of differences

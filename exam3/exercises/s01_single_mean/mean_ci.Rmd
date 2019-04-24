@@ -1,0 +1,77 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+options(scipen=999)
+while(T)
+{
+    dfs = c(6:49, seq(50,95,5), seq(100,500,25))
+    df = sample(dfs,1)
+    n = df+1
+    cls = c(0.8,0.9,0.95,0.96,0.98,0.99,0.995)
+    cl = sample(cls,1)
+    tstar = round(qt((cl+1)/2,df),2)
+    xbar = signif(runif(1,1,10)*10^sample(-2:3,1),3)
+    s = signif(runif(1,xbar/10,xbar/3),3)
+    se = signif(s/sqrt(n),3)
+    lb = signif(xbar-tstar*se,3)
+    ub = signif(xbar+tstar*se,3)
+    if(lb>0 & ub-lb>0.005)
+    {
+        break
+    }
+}
+```
+
+Question
+========
+
+A random sample has mean `r xbar` and standard deviation `r s`. Assuming the population is large and roughly symmetric (so we can use our methods of inference), determine a `r cl*100`% confidence level.
+
+Answerlist
+--------
+* Determine the lower bound.
+* Determine the upper bound.
+
+
+Solution
+========
+
+We are given the sample size, sample mean, sample standard deviation, and confidence level.
+$$
+\begin{aligned}
+n &= `r n` \\
+\bar{x} &= `r xbar` \\
+s &= `r s`\\
+CL &= `r cl`
+\end{aligned}
+$$
+Determine the degrees of freedom (because we don't know $\sigma$ and we are doing inference so we need to use the $t$ distribution).
+$$df = n-1 = `r df`$$
+Determine the critical $t$ value, $t^\star$, such that $P(|T|<t^\star) = `r cl`$.
+$$t^\star = `r tstar` $$
+Calculate the standard error. 
+$$ SE = \frac{s}{\sqrt{n}} = \frac{`r s`}{\sqrt{`r n`}} = `r se` $$
+We want to make an inference about the population mean.
+$$\mu ~\approx~ \bar{x}\pm t^\star SE $$
+Determine the bounds.
+$$
+\begin{aligned}
+CI &= (\bar{x} - t^\star SE,\,\bar{x} + t^\star SE) \\
+   &= (`r xbar` - `r tstar`\times`r se`,\,`r xbar` - `r tstar`\times`r se`) \\
+   &= (`r lb`,\,`r ub`) 
+\end{aligned}
+$$
+We are `r cl*100`% confident that the population mean is between `r lb` and `r ub`.
+
+Answerlist
+--------
+* Lower bound = `r lb`
+* Upper bound = `r ub`
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: num|num
+exsolution: `r lb`|`r ub`
+exname: mean CI
+extol: 0.01

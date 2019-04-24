@@ -45,7 +45,7 @@ if (abs(t)>tstar){wrd = 'yes'} else {wrd = 'no'}
 Question
 ========
 
-Using a significance level $\alpha = `r alpha`$, with the two samples below, determine whether the difference of means is signficantly far from 0. To do so, calculate $t^{\star}$ and $t_\text{obs}$. (Please assume $df=\text{min}(n_1,n_2)-1$.)
+Using a significance level $\alpha = `r alpha`$, with the two samples below, determine whether the difference of means is significantly far from 0. To do so, calculate $t^{\star}$ and $t_\text{obs}$. (Please assume $df=\text{min}(n_1,n_2)-1$.)
 
 | | value`r paste(1:n1,collapse='| value')` |
 `r paste(rep("|",n1+2),collapse=":---:")`

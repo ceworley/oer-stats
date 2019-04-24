@@ -6,18 +6,19 @@ sig = sample(2:round(mu/3,0), 1)
 n = sample(60:200,1)
 se = signif(sig/sqrt(n),3) 
 
-z = round(runif(1,0.5,2.7),2)
+z = round(runif(1,0.5,2.6),2)
 la = round(pnorm(z),3)
 xup = round(mu+z*se,2)
 xlo = round(mu-z*se,2)
 
-Pr = round(2*pnorm(z)-1,3)
+Pr = round(2*pnorm(-z),3)
 ```
 
 Question
 ========
 
-A roughly symmetric population has a mean $\mu = `r mu`$ and standard deviation $\sigma = `r sig`$. What is the probability that a sample of size $n = `r n`$ has a mean inside the interval $(`r xlo`,\, `r xup`)$? (Notice the bounds are both a distance `r xup-mu` from `r mu`.)
+A roughly symmetric population has a mean $\mu = `r mu`$ and standard deviation $\sigma = `r sig`$. What is the probability that a sample of size $n = `r n`$ has a mean outside the interval $(`r xlo`,\, `r xup`)$? (Notice the bounds are both a distance `r xup-mu` from `r mu`.)
+
 
 Solution
 ========
@@ -29,7 +30,7 @@ $$\bar{X} \sim \mathcal{N}(`r mu`,\,`r se`) $$
 
 Draw a sketch.
 
-```{r mean_sampling_central, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+```{r mean_sampling_twotail, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
 par(mar=c(5,3,1,1))
 zs = seq(-3,3,length=1000)
 ys = dnorm(zs)
@@ -42,9 +43,10 @@ mtext(TeX("$\\bar{x}=$"),line=0.5,side=1,at=-3.5)
 axis(side=1, line=2,at=-3:3, labels = FALSE)
 mtext(-3:3,side=1,line=2.5,at=-3:3)
 mtext(TeX("$z=$"),line=2.5,side=1,at=-3.5)
-polygon(c(zs[zs>=-z & zs<=z], z, -z),c(ys[zs>=-z & zs<=z], 0, 0), col=rgb(1,0,0,0.5))
+polygon(c(zs[zs>=z], 3, z),c(ys[zs>=z], 0, 0), col=rgb(1,0,0,0.5))
+polygon(c(zs[zs<=-z], -z, -3),c(ys[zs<=-z], 0, 0), col=rgb(1,0,0,0.5))
 lines(c(-3,3),c(0,0),'l')
-text(0,0.45,label=TeX(sprintf("area = $P(%0.2f < \\bar{X} < %0.2f)$",xlo,xup)))
+text(0,0.45,label=TeX(sprintf("area = $P(|\\bar{X}-%0.0f| < %0.2f )$",round(mu,0),mu-xlo)))
 ```
 \ 
 
@@ -54,7 +56,7 @@ $$z_\text{upper} = \frac{`r xup`-`r mu`}{`r se`} = `r z` $$
 Determine the probability.
 $$
 \begin{aligned}
-P(`r xlo` < \bar{X} < `r xup`) &= \Phi(`r z`)-\Phi(`r -z`) \\
+P(`r xlo` < \bar{X} < `r xup`) &= 2\cdot\Phi(`r -z`) \\
 &=`r Pr` 
 \end{aligned}
 $$
@@ -64,5 +66,5 @@ Meta-information
 ============
 extype: num
 exsolution: `r Pr`
-exname: mean sampling central
+exname: mean sampling twotail
 extol: 0.01
