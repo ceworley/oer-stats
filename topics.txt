@@ -79,11 +79,12 @@ Unit 4.4 - More Hyp. Testing
 ### Test for the difference between means for two independent samples (large or small)
 
 Unit 4.5 - CI/Hyp Test Proportions
-### Find the confidence interval for the binomial proportion p
-### Determine the minimum sample size for estimating p to within a specified margin of error 
 ### Determine two-tail, one-tail, or central probability given p
+### Find the confidence interval for population proportion given sample proportion
+### Determine the minimum sample size for estimating p to within a specified margin of error
 ### Test for a proportion
-### Test for the difference between two proportions
+### Confidence interval for difference of two proportions
+### Test for significant difference between two sample proportions
 
 *Unit 4.6 - Chi-Square Testing
 ### Test two variables for independence using chi-square

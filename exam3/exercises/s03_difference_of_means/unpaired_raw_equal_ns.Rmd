@@ -1,0 +1,116 @@
+```{r data generation, echo = FALSE, results = "hide"}
+options(scipen=999)
+
+## DATA GENERATION
+## Rejects H0 about 55% of time...
+mag = sample(-1:3,1)
+mu1 = signif(10^mag,3)
+sig1 = signif(mu1*runif(1,0.1,0.3),3)
+n1 = sample(3:6,1)
+se1 = sig1/sqrt(n1)
+sig2 = signif(mu1*runif(1,0.1,0.35),3)
+n2 = n1
+
+df = min(n1,n2)-1
+## df = (sig1^2/n1+sig2^2/n2)^2/(sig1^4/n1^2/(n1-1)+sig2^4/n2^2/(n2-1))
+## df = round((sig1^2/n1+sig2^2/n2)^2/(sig1^4/n1^2/(n1-1)+sig2^4/n2^2/(n2-1)), 0)
+
+alpha = sample(c(0.1,0.05,0.04,0.02,0.01),1)
+tstar = round(qt(1-alpha/2,df),2)
+
+mu2 = mu1+tstar*sqrt(sig1^2/n1+sig2^2/n2)
+mu2 = signif(mu2,3)
+
+if(sample(c(T,F),1)) {
+    sam1 = round(rnorm(n1,mu1,sig1),-mag+2)
+    sam2 = round(rnorm(n2,mu2,sig2),-mag+2)
+}else{
+    sam1 = round(rnorm(n2,mu2,sig2),-mag+2)
+    sam2 = round(rnorm(n1,mu1,sig1),-mag+2)
+}
+
+xbar1 = mean(sam1)
+xbar2 = mean(sam2)
+s1 = sd(sam1)
+s2 = sd(sam2)
+
+## df2 = df = (s1^2/n1+s2^2/n2)^2/(s1^4/n1^2/(n1-1)+s2^4/n2^2/(n2-1))
+t = (xbar2-xbar1)/sqrt(s1^2/n1+s2^2/n2)
+if (abs(t)>tstar){wrd = 'yes'} else {wrd = 'no'}
+
+ps = c(1,0.2,0.1,0.05,0.04,0.02,0.01,0.005,0.004,0.002,0)
+pval = 2*(1-pt(abs(t),df))
+plow = max(ps[ps<pval])
+phigh= min(ps[ps>pval]) 
+```
+
+Question
+========
+
+You've collected two samples. 
+
+| | value`r paste(1:n1,collapse='| value')` |
+`r paste(rep("|",n1+2),collapse=":---:")`
+`r paste(c("sample 1:",sam1),collapse=" | ")`
+`r paste(c("sample 2:",sam2),collapse=" | ")`
+
+You wonder whether the difference of means is signficantly far from 0.
+$$H_0:~~ \mu_2-\mu_1=0 $$
+$$H_0:~~ \mu_2-\mu_1\ne 0 $$
+
+Please complete the hypothesis test using a significance level $\alpha = `r alpha`$. (For unpaired $t$-tests, assume $df=\text{min}(n_1,n_2)-1$.)
+
+
+
+
+<!-- 
+| | value`r paste(1:n2,collapse='| value')` |
+`r paste(rep("|",n2+2),collapse=":---:")`
+`r paste(c("sample 2:",sam2),collapse=" | ")`
+-->
+
+
+Answerlist
+----------
+
+* The null hypothesis is $$H_0:~~E(X_2)-E(X_1)=0$$
+* The null hypothesis is $$H_0:~~E(X_2-X_1)=0$$
+* Determine $t^\star$.
+* Determine $|t_\text{obs}|$.
+* Determine lower bound of $p$-value.
+* Determine upper bound of $p$-value.
+* Do you reject $H_0$? (1 for yes or 0 for no)
+
+
+Solution
+========
+
+State the hypotheses.
+$$H_0:~~\mu_2-\mu_1 = 0$$
+$$H_A:~~\mu_2-\mu_1 \ne 0$$
+or:
+$$H_0:~~E(X_2)-E(X_1) = 0$$
+$$H_A:~~E(X_2)-E(X_1) \ne 0$$
+We are using a two-tail test. Find $t^{\star}$ such that $P(|T|>t^{\star})$ by using a $t$ table.
+$$t^{\star} = `r tstar`$$
+
+
+Answerlist
+----------
+
+* True
+* False
+* $t^\star = `r tstar`$
+* $|t_\text{obs}| = `r abs(round(t,2))`$.
+* LB: $`r plow`$
+* UB: $`r phigh`$
+* `r 1`
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: schoice|num|num|num|num|num
+exsolution: `r tstar`|`r abs(round(t,2))`|`r plow`|`r phigh`|`r 1`
+exname: unpaired 2-sample 2-tail raw similar to paired
+extol: 0.01

@@ -1,0 +1,116 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+options(scipen=999)
+## DATA GENERATION
+while(T)
+{
+    p1 = round(runif(1,0.01,0.99),3)
+    p2 = round(runif(1,0.01,0.99),3)
+    dp = p2-p1
+    n1 = sample(1:10,1)*10^sample(1:3,1)
+    n2 = sample(1:10,1)*10^sample(1:3,1)
+    se = signif(sqrt(p1*(1-p1)/n1+p2*(1-p2)/n2),3)
+    is_norm1 = (p1*n1>10 & (1-p1)*n1>10)
+    is_norm2 = (p2*n2>10 & (1-p2)*n2>20)
+    if(is_norm1 & is_norm2 & se>0.005)
+    {
+        break
+    }
+}
+z = round(runif(1,-2.6,2.6),2)
+dphat = round(z*se+dp,3)
+z = round((dphat-dp)/se,2)
+Pr = round(pnorm(z),4)
+
+adj = sample(c("cold","angry","sorry","abysmal",
+               "happy", "preoccupied", "sick", "green",
+               "fluorescent", "folksy", "reclusive", "omnivorous",
+               "special"), 1)
+wrd1 = sample(c("less than", "under", "at most", "below"), 1)
+```
+
+
+Question
+========
+
+In one population, `r 100*p1`% are `r adj` ($p_1 = `r p1`$). In a second population, `r 100*p2`% are `r adj` ($p_2 = `r p2`$). When random samples of sizes `r n1` and `r n2` are taken from the first and second populations respectively, what is the chance that $\hat{P}_2 - \hat{P}_1$ is `r wrd1` $`r dphat`$?
+
+
+
+Solution
+========
+
+Check if we expect the $\hat{P}_2 - \hat{P}_1$ sampling to follow a normal distribution. The random sampling from two (presumably very large) populations allows us to assume independence. The inequalities are also satisfied:
+$$
+\begin{aligned}
+n_1 p_1 &> 10 \\
+n_1 (1-p_1) &> 10\\
+n_2 p_2 &> 10 \\
+n_2 (1 -p_2) &> 10
+\end{aligned}
+$$
+So, we do expect $\hat{P}_2 - \hat{P}_1$ sampling to follow a normal distribution.
+$$\hat{P}_2 - \hat{P}_1 ~~\sim~~ \mathcal{N}(p_2-p_1,\,SE)$$
+Calculate the expected difference.
+$$
+\begin{aligned}
+p_2-p_1 &= `r p2`-`r p1`\\
+   &= `r dp`
+\end{aligned}
+$$
+Calculate the standard error.
+$$
+\begin{aligned}
+SE &= \sqrt{\frac{p_1(1-p_1)}{n_1}+\frac{p_2(1-p_2)}{n_2}}\\[1em]
+   &= \sqrt{\frac{`r p1`(1-`r p1`)}{`r n1`}+\frac{`r p2`(1-`r p2`)}{`r n2`}}\\[1em]
+   &= `r se`
+\end{aligned}
+$$
+We have the parameters for $\hat{P}_2 - \hat{P}_1$ sampling.
+$$\hat{P}_2 - \hat{P}_1 ~~\sim~~ \mathcal{N}(`r dp`,\,`r se`)$$
+Determine a $z$ score for the boundary $\hat{p}_2-\hat{p}_1 = -0.427$.
+$$
+\begin{aligned}
+z  &= \frac{(\hat{p}_2-\hat{p}_1)-(p_2-p_1)}{SE} \\[1em]
+   &= \frac{(`r dphat`) - (`r dp`)}{`r se`} \\[1em]
+   &= `r z`
+\end{aligned}
+$$
+Draw a sketch. The phrase "`r wrd1` `r dphat`" suggests finding a left area.
+
+```{r diff_sampling_left_area, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
+par(mar=c(5,4,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(round(p2-p1+(-3:3)*se,3),side=1,line=0.5,at=-3:3)
+mtext(TeX("$\\hat{p}_2-\\hat{p}_1$="),line=0.5,side=1,at=-3.8)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.7)
+polygon(c(zs[zs<=z], z, -3),c(ys[zs<=z], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l',lwd=1)
+```
+\ 
+
+Use a z table.
+$$
+\begin{aligned}
+\text{Pr}\left( \hat{P}_2 - \hat{P}_1 < `r dphat`\right) &= \text{Pr}(Z<`r z`) \\
+&= \Phi(`r z`) \\
+&= `r Pr`
+\end{aligned}
+$$
+
+Thus, we conclude that there is a `r Pr*100`% chance that $\hat{P}_2-\hat{P}_1$ is `r wrd1` `r dphat`.
+
+
+Meta-information
+============
+extype: num
+exsolution: `r Pr`
+exname: p diff sampling left area
+extol: 0.01

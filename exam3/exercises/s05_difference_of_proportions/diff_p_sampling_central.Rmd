@@ -1,0 +1,117 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+options(scipen=999)
+## DATA GENERATION
+while(T)
+{
+    p1 = round(runif(1,0.01,0.99),3)
+    p2 = round(runif(1,0.01,0.99),3)
+    dp = p2-p1
+    n1 = sample(1:10,1)*10^sample(1:3,1)
+    n2 = sample(1:10,1)*10^sample(1:3,1)
+    se = signif(sqrt(p1*(1-p1)/n1+p2*(1-p2)/n2),3)
+    is_norm1 = (p1*n1>10 & (1-p1)*n1>10)
+    is_norm2 = (p2*n2>10 & (1-p2)*n2>20)
+    if(is_norm1 & is_norm2 & se>0.005)
+    {
+        break
+    }
+}
+z = round(runif(1,0.2,2.6),2)
+dphat = round(z*se+dp,3)
+z = round((dphat-dp)/se,2)
+Pr = 2*round(pnorm(abs(z)),4) - 1
+ddp = dphat-dp
+adj = sample(c("cold","angry","sorry","abysmal",
+               "happy", "preoccupied", "sick", "green",
+               "fluorescent", "folksy", "reclusive", "omnivorous",
+               "special"), 1)
+```
+
+
+Question
+========
+
+In one population, `r 100*p1`% are `r adj` ($p_1 = `r p1`$). In a second population, `r 100*p2`% are `r adj` ($p_2 = `r p2`$). When random samples of sizes `r n1` and `r n2` are taken from the first and second populations respectively, what is the chance that $\hat{P}_2 - \hat{P}_1$ is between `r signif(dp-abs(ddp),3)` and `r signif(dp+abs(ddp),3)`?
+
+
+Solution
+========
+
+Check if we expect the $\hat{P}_2 - \hat{P}_1$ sampling to follow a normal distribution. The random sampling from two (presumably very large) populations allows us to assume independence. The inequalities are also satisfied:
+$$
+\begin{aligned}
+n_1 p_1 &> 10 \\
+n_1 (1-p_1) &> 10\\
+n_2 p_2 &> 10 \\
+n_2 (1 -p_2) &> 10
+\end{aligned}
+$$
+So, we do expect $\hat{P}_2 - \hat{P}_1$ sampling to follow a normal distribution.
+$$\hat{P}_2 - \hat{P}_1 ~~\sim~~ \mathcal{N}(p_2-p_1,\,SE)$$
+Calculate the expected difference.
+$$
+\begin{aligned}
+p_2-p_1 &= `r p2`-`r p1`\\
+   &= `r dp`
+\end{aligned}
+$$
+Calculate the standard error.
+$$
+\begin{aligned}
+SE &= \sqrt{\frac{p_1(1-p_1)}{n_1}+\frac{p_2(1-p_2)}{n_2}}\\[1em]
+   &= \sqrt{\frac{`r p1`(1-`r p1`)}{`r n1`}+\frac{`r p2`(1-`r p2`)}{`r n2`}}\\[1em]
+   &= `r se`
+\end{aligned}
+$$
+We have the parameters for $\hat{P}_2 - \hat{P}_1$ sampling.
+$$\hat{P}_2 - \hat{P}_1 ~~\sim~~ \mathcal{N}(`r dp`,\,`r se`)$$
+Determine $z$ scores of the boundaries.
+$$
+\begin{aligned}
+z_\text{lower}  &= \frac{(\hat{p}_2-\hat{p}_1)_\text{lower}-(p_2-p_1)}{SE} \\[1em]
+   &= \frac{(`r dp-abs(ddp)`) - (`r dp`)}{`r se`} \\[1em]
+   &= `r -abs(z)`\\[1em]
+z_\text{upper}  &= \frac{(\hat{p}_2-\hat{p}_1)_\text{upper}-(p_2-p_1)}{SE} \\[1em]
+   &= \frac{(`r dp+abs(ddp)`) - (`r dp`)}{`r se`} \\[1em]
+   &= `r abs(z)`
+\end{aligned}
+$$
+Draw a sketch. The phrase "between `r signif(dp-abs(ddp),3)` and `r signif(dp+abs(ddp),3)`" suggests finding a central area.
+
+```{r diff_sampling_central_area, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
+par(mar=c(5,4,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(round(p2-p1+(-3:3)*se,3),side=1,line=0.5,at=-3:3)
+mtext(TeX("$\\hat{p}_2-\\hat{p}_1$="),line=0.5,side=1,at=-3.8)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.7)
+polygon(c(zs[zs>=-abs(z) & zs<=abs(z)], abs(z), -abs(z)),c(ys[zs>=-abs(z) & zs<=abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l',lwd=1)
+```
+\ 
+
+Use a z table.
+$$
+\begin{aligned}
+\text{Pr}\left(`r signif(dp-ddp,3)` < \hat{P}_2 - \hat{P}_1 < `r signif(dp+ddp,3)`\right) &= \text{Pr}(|Z|<`r z`) \\
+&= 2\cdot\Phi(`r abs(z)`)-1 \\
+&= `r Pr`
+\end{aligned}
+$$
+
+Thus, we conclude that there is a `r Pr*100`% chance that $\hat{P}_2-\hat{P}_1$ is between `r signif(dp-abs(ddp),3)` and `r signif(dp+abs(ddp),3)`.
+
+
+Meta-information
+============
+extype: num
+exsolution: `r Pr`
+exname: p diff sampling central area
+extol: 0.01

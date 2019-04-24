@@ -1,0 +1,24 @@
+??? single draw from normal prob ???
+
+@ sampling single mean (left and right done)
+ci single mean
+@ test single mean
+get n for ME < x
+
+ci mean of differences
+test mean of differences
+
+sampling difference of means
+@ ci difference of means
+@ test difference of means
+
+# sampling single proportion
+# ci single proportion
+# test single proportion
+# get n for ME < x
+
+## sampling difference of proportions
+## ci difference of proportions
+## test difference of proportions
+
+
