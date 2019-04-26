@@ -1,0 +1,120 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+options(scipen=999)
+while(T)
+{
+    n = sample(5:7,1)
+    sam1 = signif(runif(n,50,90),3)
+    alphas = c(0.1,0.05,0.04,0.02,0.01,0.005)
+    alpha = sample(alphas,1)
+    tstar = round(qt(1-alpha/2,n-1),2)
+    sigma = runif(1,2,5)
+    se = sigma/sqrt(n)
+    mud = sample(c(-1,1),1)*tstar*se
+    sam2 = signif(sam1 + rnorm(n,mud,sigma),3)
+    dsam = sam2-sam1
+    dbar = signif(mean(dsam),3)
+    dsd = signif(sd(dsam),3)
+    dse = signif(dsd/sqrt(n),3)
+    t = signif((dbar-0)/dse,4)
+    if(sum(dsam>0)>0 & sum(dsam>0)<n & sum(dsam==0)==0 & abs(abs(t)-tstar) > 0.02 & abs(abs(t)-tstar) < 0.2)
+    {
+        break
+    }
+}
+if(abs(t)>tstar)
+{
+    wrd = 'reject'
+    sym = '>'
+} else {
+    wrd = 'retain'
+    sym = '<'
+}
+pval = 2*pt(-abs(t),n-1)
+
+pvals = c(1,alphas,0.004,0.002,0)
+lbpval = max(pvals[pvals<pval])
+ubpval = min(pvals[pvals>pval])
+
+```
+
+Question
+========
+
+A teacher has `r n` students who have each taken two quizzes. Perform a two-tail test with significance level `r alpha` to determine whether students' performance changed on average.
+
+| | student`r paste(1:n,collapse='| student')` |
+`r paste(rep("|",n+2),collapse=":---:")`
+`r paste(c("quiz 1:",sam1),collapse=" | ")`
+`r paste(c("quiz 2:",sam2),collapse=" | ")`
+
+
+Answerlist
+--------
+
+* State the null hypothesis.
+* State the alternative hypothesis.
+* Evaluate the critical value. (The critical value is either $z^\star$ or $t^\star$. Determine its value.)
+* Determine the standard error of the relevant sampling distribution.
+* Evaluate the absolute value of the test statistic. (The test statistic is either $z_\text{obs}$ or $t_\text{obs}$. Determine its absolute value.)
+* If possible, evaluate the $p$-value. Otherwise, describe an interval containing the $p$-value.
+* Do we reject or retain the null?
+
+
+
+Solution
+========
+
+We are given paired data. We are considering a mean of differences. Label the given information.
+$$
+\begin{aligned}
+n &= `r n` \\
+\alpha &= `r alpha`
+\end{aligned}
+$$
+State the hypotheses.
+$$H_0: ~~\mu_\text{diff}=`r 0`$$
+$$H_\text{A}: ~~\mu_\text{diff}\ne`r 0`$$
+Determine the degrees of freedom.
+$$df = n-1 = `r n-1` $$
+We determine $t^\star$ such that $P(|T|>t^\star) = `r alpha`$.
+$$t^\star = `r tstar` $$
+Subtract each student's scores to get the differences.
+
+| | student`r paste(1:n,collapse='| student')` |
+`r paste(rep("|",n+2),collapse=":---:")`
+`r paste(c("quiz2-quiz1:",round(sam2-sam1,1)),collapse=" | ")`
+
+Find the sample mean.
+$$\overline{x_\text{diff}} = `r dbar`$$
+Find the sample standard deviation.
+$$s_\text{diff} = `r dsd`$$
+Determine the standard error.
+$$SE = \frac{s_\text{diff}}{\sqrt{n}} = `r dse` $$
+Calculate the observed $t$ score.
+$$t_\text{obs} = \frac{\overline{x_\text{diff}}-(\mu_\text{diff})_0}{SE} = \frac{`r dbar`-0}{`r dse`} = `r t` $$
+Compare $|t_\text{obs}|$ and $t^\star$.
+$$|t_\text{obs}| `r sym` t^\star $$
+We can determine an interval for the $p$-value using the $t$ table.
+$$`r lbpval` < p\text{-value} < `r ubpval`$$
+We conclude that we should `r wrd` the null hypothesis.
+
+
+Answerlist
+--------
+* $H_0: ~~\mu_\text{diff}=`r 0`$
+* $H_\text{A}:~~ \mu_\text{diff} \ne `r 0`$
+* $t^\star = `r tstar`$
+* $SE = `r se`$
+* $|t_\text{obs}| = `r abs(t)`$
+* $`r lbpval` < p\text{-value} < `r ubpval`$
+* `r wrd` the null
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: string|string|string|string|string|string|string
+exsolution: $H_0: \mu_\text{diff}=`r 0`$|$H_\text{A}: \mu_\text{diff} \ne 0$|$t^\star = `r tstar`$|$SE = `r signif(se,3)`$|$\mid t_\text{obs}\mid = `r abs(t)`$|$`r lbpval` < p\text{-value} < `r ubpval`$|`r wrd`
+exname: mean of diffs raw
+extol: 0.01

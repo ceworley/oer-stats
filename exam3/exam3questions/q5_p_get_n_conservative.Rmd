@@ -1,0 +1,51 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+options(scipen=999)
+CL = sample(c(0.8,0.9,0.95,0.96,0.98,0.99,0.995),1)
+perc = (1+CL)/2
+zstar = round(qnorm(perc),2)
+ME = signif(runif(1,1,10)*10^runif(1,-3,-2),1)
+SE = signif(ME/zstar,3)
+p = 0.5
+n = ceiling(p*(1-p)/SE^2)
+mag = ceiling(log(n)/log(10))
+n2 = ceiling(n/10^(mag-2))*10^(mag-2)
+adjs = c("cold","bitter","salty","frigid",
+         "golden","green","blue","happy",
+         "special","sweet","super","messy",
+         "angry","purple","broken","shiny",
+         "glowing","tasty","floating","asleep")
+adj = sample(adjs, 1)
+```
+
+Question
+========
+
+Your boss wants to know what proportion of a very large population is `r adj`. She also wants to guarantee that the margin of error of a `r CL*100`% confidence interval will be less than `r ME` (which is `r 100*ME` percentage points). How large of a sample is needed? Please round up, using only 2 significant digits.
+
+
+Solution
+========
+
+Determine $z^\star$ such that $P(|Z|<z^\star) = `r CL`$.
+$$z^\star = `r zstar`$$
+Determine the maximal standard error.
+$$ME = z^\star SE $$
+
+$$SE = \frac{ME}{z^\star} = \frac{`r ME`}{`r zstar`} = `r SE` $$
+Calculate $n$. Because we have no idea what $p$ is, we will use a conservative approach and use $p=0.5$.
+$$SE = \sqrt{\frac{p(1-p)}{n}}$$
+
+$$n = \frac{p(1-p)}{SE^2} = \frac{(0.5)(0.5)}{(`r SE`)^2} = `r p*(1-p)/SE^2`$$
+
+When determining a necessary sample size, always round up (ceiling).
+$$n = `r n` $$
+Also, for simplicity, you should probably only use about 2 significant digits, while still rounding up.
+$$n = `r n2` $$
+
+Meta-information
+============
+extype: string
+exsolution: $n \approx `r n2`$
+exname: p get n conservative
+extol: 0.01

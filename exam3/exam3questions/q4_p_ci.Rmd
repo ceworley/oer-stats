@@ -1,0 +1,72 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+options(scipen=999)
+CL = sample(c(0.8,0.9,0.95,0.96,0.98,0.99,0.995),1)
+perc = (1+CL)/2
+zstar = round(qnorm(perc),2)
+while(T)
+{
+    phat = round(runif(1,0.01,0.99),3)
+    n = sample(10:99,1)*10^sample(0:3,1)
+    ns = round(phat*n,0)
+    phat = signif(ns/n,3)    
+    se = signif(sqrt(phat*(1-phat)/n),3)
+    binomse = n*se
+    plo = signif(phat-zstar*se,3)
+    pup = signif(phat+zstar*se,3)
+    sucs = phat*n
+    fails = (1-phat)*n
+    if(sucs>10 & fails>10 & plo>0 & pup<1 & binomse>7)
+    {
+        break
+    }
+}
+adjs = c("cold","bitter","salty","frigid",
+         "golden","green","blue","happy",
+         "special","sweet","super","messy",
+         "angry","purple","broken","shiny",
+         "glowing","tasty","floating","asleep")
+adj = sample(adjs, 1)
+```
+
+Question
+========
+
+From a very large population, a random sample of `r n` individuals was taken. In that sample, `r phat*100`% were `r adj`. Determine a `r CL*100`% confidence interval of the population proportion.
+
+Answerlist
+----------
+* Find the lower bound of the confidence interval.
+* Find the upper bound of the condifence interval.
+
+
+
+Solution
+========
+
+Determine $z^\star$ such that $P(|Z|<z^\star) = `r CL`$.
+$$z^\star = `r zstar` $$
+Calculate the standard error.
+$$SE = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \sqrt{\frac{(`r phat`)(1-`r phat`)}{`r n`}} = `r se` $$
+Calculate the margin of error.
+$$ME = z^\star SE = (`r zstar`)(`r se`) = `r signif(zstar*se,3)` $$
+To find the confidence interval's bounds, find the sample proportion plus or minus the margin of error.
+$$p ~\approx~ \hat{p} \pm ME $$
+Determine the interval.
+$$(`r plo`\,,~ `r pup`) $$
+We are `r CL*100`% confident that the true population proportion is between `r plo*100`% and `r pup*100`%.
+
+
+Answerlist
+----------
+* The lower bound = `r plo`, which can also be expressed as `r plo*100`%.
+* The upper bound = `r pup`, which can also be expressed as `r pup*100`%.
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: string|string
+exsolution: LB of p CI = `r plo` or $`r plo*100`\%$|UB of p CI = `r pup` or $`r pup*100`\%$
+exname: p CI
+extol: 0.01

@@ -1,0 +1,83 @@
+```{r data generation, echo = FALSE, results = "hide"}
+
+names = c("Dendroica pensylvanica","Denrdoica magnolia","Dendroica coronata","Dendroica fusca","Dendroica dominica","Dendroica palmarum","Dendroica castanea","Dendroica striata","Setophaga ruticilla","Protonotaria citrea","Helmitheros vermivorus","Seiurus aurocapillus","Seiurus noveboracensis","Oporornis formosus","Geothlypis trichas","Wilsonia citrina","Melospiza georgiana","Zonotrichia albicollis","Passerculus sandwichensis","Ammodramus maritimus","Piranga rubra","Piranga olivacea","Passerina cyanea","Icterus spurius","Agelaius Phoeniceus","Dolichonyx orizivorus","Porzana carolina","Cuculus americanus","Chaetura pelagica","Archilochus colubris","Vireo griseus","Vireo philadelphicus","Vireo olivaceus","Catharus fuscescens","Catharus minimus","Catharus ustulatus","Catharus guttatus","Hylocichla mustelina","Dumetella carolinensis","Cistothorus palustris","Passer domesticus","Vermivora peregrina")
+
+mws = c(12.79 , 9.63 , 11.94 , 12.98 , 9.76 , 10.25 , 14.99 , 14.54 , 9.11 , 13.94 , 15.63 , 22.68 , 20.37 , 16.46 , 10.78 , 10.29 , 13.45 , 23.84 , 17.12 , 21.81 , 36.50 , 38.68 , 15.45 , 22.51 , 45.39 , 34.20 , 67.54 , 71.51 , 30.36 , 3.64 , 10.04 , 13.43 , 18.88 , 41.14 , 32.08 , 32.66 , 29.13 , 56.92 , 37.17 , 9.77 , 25.36 , 12.90)
+
+sds = c(1.22 , 1.39 , 1.28 , 1.28 , 1.70 , 1.29 , 1.47 , 4.26 , 1.30 , 1.62 , 2.40 , 1.63 , 3.41 , 2.54 , 1.19 , 2.02 , 1.16 , 2.00 , 1.55 , 1.73 , 5.91 , 4.73 , 2.07 , 2.07 , 6.98 , 8.09 , 9.94 , 13.49 , 1.22 , 0.80 , 0.79 , 1.57 , 3.01 , 4.26 , 5.43 , 7.51 , 1.55 , 7.03 , 3.42 , 1.25 , 3.27 , 1.18)
+
+library(latex2exp)
+options(scipen=999)
+id = sample(1:length(names),1)
+name = names[id]
+mu = mws[id]
+sigma = sds[id]
+
+dfs = c(12:35)
+df = sample(dfs,1)
+n = df+1
+cls = c(0.8,0.9,0.95,0.96,0.98,0.99,0.995)
+cl = sample(cls,1)
+tstar = round(qt((cl+1)/2,df),2)
+sam = rnorm(n,mu,sigma)
+xbar = round(mean(sam),2)
+s = signif(sd(sam),3)
+se = signif(s/sqrt(n),3)
+lb = signif(xbar-tstar*se,3)
+ub = signif(xbar+tstar*se,3)
+```
+
+Question
+========
+
+As an ornithologist, you wish to determine the average body mass of *`r name`*. You randomly capture `r n` adults of *`r name`*, resulting in a sample mean of `r xbar` grams and a sample standard deviation of `r s` grams. You decide to report a `r cl*100`% confidence interval. 
+
+Answerlist
+--------
+* Determine the lower bound of the confidence interval.
+* Determine the upper bound of the confidence interval.
+
+
+Solution
+========
+
+We are given the sample size, sample mean, sample standard deviation, and confidence level.
+$$
+\begin{aligned}
+n &= `r n` \\
+\bar{x} &= `r xbar` \\
+s &= `r s`\\
+CL &= `r cl`
+\end{aligned}
+$$
+Determine the degrees of freedom (because we don't know $\sigma$ and we are doing inference so we need to use the $t$ distribution).
+$$df = n-1 = `r df`$$
+Determine the critical $t$ value, $t^\star$, such that $P(|T|<t^\star) = `r cl`$.
+$$t^\star = `r tstar` $$
+Calculate the standard error. 
+$$ SE = \frac{s}{\sqrt{n}} = \frac{`r s`}{\sqrt{`r n`}} = `r se` $$
+We want to make an inference about the population mean.
+$$\mu ~\approx~ \bar{x}\pm t^\star SE $$
+Determine the bounds.
+$$
+\begin{aligned}
+CI &= (\bar{x} - t^\star SE,\,\bar{x} + t^\star SE) \\
+   &= (`r xbar` - `r tstar`\times`r se`,\,`r xbar` - `r tstar`\times`r se`) \\
+   &= (`r lb`,\,`r ub`) 
+\end{aligned}
+$$
+We are `r cl*100`% confident that the population mean is between `r lb` and `r ub`.
+
+Answerlist
+--------
+* Lower bound = `r lb`
+* Upper bound = `r ub`
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: string|string
+exsolution: LB = `r lb`|UB = `r ub`
+exname: mean CI
+extol: 0.01

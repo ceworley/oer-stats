@@ -1,0 +1,161 @@
+```{r data generation, echo = FALSE, results = "hide"}
+options(scipen=999)
+
+while(T)
+{
+n1 = sample(5:7,1)
+n2 = n1
+mag = runif(1,0,3)
+mu1 = signif(10^mag,3)
+sig1 = signif(mu1*runif(1,0.03,0.3),3)
+sig2 = signif(mu1*runif(1,0.03,0.35),3)
+
+## df = min(n1,n2)-1
+## df = (sig1^2/n1+sig2^2/n2)^2/(sig1^4/n1^2/(n1-1)+sig2^4/n2^2/(n2-1))
+df = floor((sig1^2/n1+sig2^2/n2)^2/(sig1^4/n1^2/(n1-1)+sig2^4/n2^2/(n2-1)))
+
+alpha = sample(c(0.1,0.05,0.04,0.02,0.01),1)
+tstar = round(qt(1-alpha/2,df),2)
+
+mu2 = mu1+tstar*sqrt(sig1^2/n1+sig2^2/n2)
+mu2 = signif(mu2,3)
+
+if(sample(c(T,F),1)) {
+    sam1 = round(rnorm(n1,mu1,sig1),-mag+2)
+    sam2 = round(rnorm(n2,mu2,sig2),-mag+2)
+}else{
+    sam1 = round(rnorm(n2,mu2,sig2),-mag+2)
+    sam2 = round(rnorm(n1,mu1,sig1),-mag+2)
+}
+
+xbar1 = signif(mean(sam1),3)
+xbar2 = signif(mean(sam2),3)
+s1 = signif(sd(sam1),3)
+s2 = signif(sd(sam2),3)
+
+se = signif(sqrt(s1^2/n1+s2^2/n2) ,3)
+
+## df2 = df = (s1^2/n1+s2^2/n2)^2/(s1^4/n1^2/(n1-1)+s2^4/n2^2/(n2-1))
+t = round((xbar2-xbar1)/sqrt(s1^2/n1+s2^2/n2),2)
+if (abs(t)>tstar)
+{
+    wrd = 'reject'
+    sym = '>'
+    sym2 = '<'
+} else {
+    wrd = 'retain'
+    sym = '<'
+    sym2 = '>'
+}
+
+if(abs(abs(t)-tstar)>0.01 & abs(abs(t)-tstar)<0.3)
+{
+    break
+}
+}
+
+ps = c(1,0.2,0.1,0.05,0.04,0.02,0.01,0.005,0.004,0.002,0)
+pval = 2*(1-pt(abs(t),df))
+plow = max(ps[ps<pval])
+phigh= min(ps[ps>pval]) 
+```
+
+```{r table}
+lines = ""
+for (i in 1:n1)
+{
+lines =  paste0(lines,paste(c(sam1[i],sam2[i]),collapse=" | "),"\n",sep="")
+}
+```
+
+
+
+Question
+========
+
+You are interested in whether a treatment causes an effect on a continuously measurable attribute. You use a treatment group with `r n1` cases and a control group with `r n2` cases.  You decide to run a hypothesis test with a significance level of `r alpha`. Your data is below. Please use `r df` for the degrees of freedom (calculated with the Welch-Satterthwaite equation).
+
+| treatment | control |
+| :-------: | :-----: |
+`r lines`
+
+Answerlist
+----------
+
+* State the null hypothesis.
+* State the alternative hypothesis.
+* Evaluate the critical value. (The critical value is either $z^\star$ or $t^\star$. Determine its value.)
+* Determine the standard error of the relevant sampling distribution.
+* Evaluate the absolute value of the test statistic. (The test statistic is either $z_\text{obs}$ or $t_\text{obs}$. Determine its absolute value.)
+* If possible, evaluate the $p$-value. Otherwise, describe an interval containing the $p$-value.
+* Do we reject or retain the null?
+
+
+Solution
+========
+
+We are given unpaired data. We are considering a difference of means. Label the given information.
+$$
+\begin{aligned}
+n_1 &= `r n1` \\
+n_2 &= `r n2` \\
+\alpha &= `r alpha`
+\end{aligned}
+$$
+State the hypotheses.
+$$H_0:~~\mu_2-\mu_1 = 0$$
+$$H_A:~~\mu_2-\mu_1 \ne 0$$
+We are using a two-tail test. Find $t^{\star}$ such that $P(|T|>t^{\star})$ by using a $t$ table.
+$$t^{\star} = `r tstar`$$
+Determine the sample statistics. Use a calculator!
+$$
+\begin{aligned}
+\bar{x}_1 &= `r xbar1` \\
+s_1 &= `r s1` \\
+\bar{x}_2 &= `r xbar2` \\
+s_2 &= `r s2`
+\end{aligned}
+$$
+Calculate the standard error.
+$$
+\begin{aligned}
+SE &= \sqrt{\frac{(s_1)^2}{n_1}+\frac{(s_2)^2}{n_2}} \\
+&= \sqrt{\frac{(`r s1`)^2}{`r n1`}+\frac{(`r s2`)^2}{`r n2`}} \\
+&= `r se`
+\end{aligned}
+$$
+Determine the test statistic.
+$$
+\begin{aligned}
+t_\text{obs} &= \frac{(\bar{x}_2-\bar{x}_1)-(\mu_2-\mu_1)_0}{SE} \\
+&= \frac{(`r xbar2`-`r xbar1`)-(0)}{`r se`} \\
+&= `r t`
+\end{aligned}
+$$
+Compare $|t_\text{obs}|$ and $t^\star$.
+$$|t_\text{obs}| `r sym` t^\star $$
+We can determine an interval for the $p$-value using the $t$ table.
+$$`r plow` < p\text{-value} < `r phigh`$$
+Compare $p$-value and $\alpha$.
+$$p\text{-value} `r sym2` \alpha $$
+We conclude that we should `r wrd` the null hypothesis.
+
+Answerlist
+----------
+
+* $H_0: ~~\mu_2-\mu_1=0$
+* $H_\text{A}:~~ \mu_2-\mu_1\ne 0$
+* $t^\star = `r tstar`$
+* $SE = `r se`$
+* $|t_\text{obs}| = `r abs(t)`$
+* $`r plow` < p\text{-value} < `r phigh`$
+* `r wrd` the null
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: string|string|string|string|string|string|string
+exsolution: $H_0:~~\mu_2-\mu_1 = 0$|$H_0:~~\mu_2-\mu_1 \ne 0$|$t^\star = `r tstar`$|$SE = `r se`$|$\mid t_\text{obs}\mid = `r abs(t)`$|$`r plow` < p\text{-value} < `r phigh`$|`r wrd`
+exname: unpaired 2-sample 2-tail raw similar to paired
+extol: 0.01

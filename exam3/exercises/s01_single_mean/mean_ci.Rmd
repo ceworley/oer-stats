@@ -24,7 +24,7 @@ while(T)
 Question
 ========
 
-A random sample has mean `r xbar` and standard deviation `r s`. Assuming the population is large and roughly symmetric (so we can use our methods of inference), determine a `r cl*100`% confidence level.
+A random sample of size `r n` has mean `r xbar` and standard deviation `r s`. Assuming the population is large and roughly symmetric (so we can use our methods of inference), determine a `r cl*100`% confidence interval.
 
 Answerlist
 --------

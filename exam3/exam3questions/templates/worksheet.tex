@@ -1,0 +1,44 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{color,verbatim,Sweave,url,xargs,amsmath,hyperref,booktabs,longtable}
+\usepackage[left=1cm,right=1cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textsc{BHCC Mat-181}}
+\rhead{\textsc{Chapters 5 and 6 Review A}}
+
+\usepackage{caption}
+\captionsetup[figure]{labelformat=empty}
+
+\usepackage{float}
+\floatplacement{figure}{H}
+
+
+%% new environments
+\newenvironment{question}{\item \textbf{Problem}\newline}{\newpage}
+\newenvironment{solution}{\textbf{Solution}\newline}{\newpage}
+\newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
+
+
+%% compatibility with pandoc
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%% fonts: Helvetica
+\renewcommand{\sfdefault}{phv}
+\IfFileExists{sfmath.sty}{
+  \RequirePackage[helvet]{sfmath}
+  \renewcommand{\rmdefault}{phv}
+}{}
+
+
+\begin{document}
+
+\begin{enumerate}
+
+%% \exinput{exercises}
+
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,147 @@
+```{r data generation, echo = FALSE, results = "hide"}
+options(scipen=999)
+## DATA GENERATION
+alpha = sample(c(0.2,0.1,0.05,0.04,0.02,0.01,0.005),1)
+zstar = qnorm(1-alpha/2)
+z = round(zstar + runif(1,0.1,0.3),2)*sample(c(-1,1),1)
+while(T)
+{
+    p1 = round(runif(1,0.01,0.99),3)
+    n1 = sample(16:300,1)
+    n2 = abs(n1+sample((-60:40),1))+10
+    p2 = round((n2*(z*sqrt(n2^2*(z^2+n1*(4*p1-4*p1^2))
+               +n1^2*n2*(4*p1-4*p1^2))
+               +n1*(z^2-2*p1*z^2)+2*n1^2*p1)
+               +n1*z*sqrt(n2^2*(z^2+n1*(4*p1-4*p1^2))
+               +n1^2*n2*(4*p1-4*p1^2))
+               +n2^2*(z^2+2*n1*p1))
+               /(n2^2*(2*z^2+2*n1)+2*n1^2*n2), 3)
+    pp = (p1*n1+p2*n2)/(n1+n2)
+    se = signif(sqrt(pp*(1-pp)/n1+pp*(1-pp)/n2),3)
+    is_norm = (pp*(n1+n2)>10 & (1-pp)*(n1+n2)>10)
+    if(is_norm & se>0.005 & p2>=0 & p2<=1)
+    {
+        break
+    }
+}
+s1 = round(n1*p1,0)
+f1 = round(n1*(1-p1),0)
+s2 = round(n2*p2,0)
+f2 = round(n2*(1-p2),0)
+n1 = s1+f1
+n2 = s2+f2
+
+p1 = signif(s1/n1,3)
+p2 = signif(s2/n2,3)
+pp = signif((s1+s2)/(n1+n2),3)
+se = signif(sqrt(pp*(1-pp)/n1 + pp*(1-pp)/n2),3)
+
+z = round(((p2-p1)-0)/se,2)
+pval = 2*round(pnorm(-abs(z)),4)
+if (pval < alpha)
+{
+    wrd = "yes"
+    rwrd = "reject"
+    sym = "<"
+    wrd2 = ""
+} else {
+    wrd = "no"
+    rwrd = "retain"
+    sym = ">"
+    wrd2 = "not"
+}
+adj = sample(c("cold","angry","sorry","abysmal",
+               "happy", "preoccupied", "sick", "green",
+               "fluorescent", "folksy", "reclusive", "omnivorous",
+               "special"), 1)
+```
+
+
+Question
+========
+
+An experiment is run with a treatment group of size `r n1` and a control group of size `r n2`. The results are summarized in the table below.
+
+|             | treatment | control | 
+|:-----------:|:---------:|:-------:|
+| `r adj`     |  `r s1`   | `r s2`  |
+| not `r adj` |  `r f1`   | `r f2`  |
+
+ Using a significance level of `r alpha`, determine whether the treatment causes an effect on the proportion of cases that are `r adj`.
+
+Answerlist
+--------
+
+* State the null hypothesis.
+* State the alternative hypothesis.
+* Evaluate the critical value. (The critical value is either $z^\star$ or $t^\star$. Determine its value.)
+* Determine the standard error of the relevant sampling distribution.
+* Evaluate the absolute value of the test statistic. (The test statistic is either $z_\text{obs}$ or $t_\text{obs}$. Determine its absolute value.)
+* If possible, evaluate the $p$-value. Otherwise, describe an interval containing the $p$-value.
+* Do we reject or retain the null?
+
+
+Solution
+========
+
+State the hypotheses.
+$$H_0:~~ p_2-p_1 = 0 $$
+$$H_\text{A}: ~~ p_2-p_1 \ne 0 $$
+Find $z^\star$ such that $P(|Z|>z^\star) = `r alpha`$.
+$$z^\star = \Phi^{-1}\left(1-\frac{\alpha}{2}\right) = `r round(zstar,2)` $$
+Determine the sample proportions.
+$$\hat{p}_1 = \frac{`r s1`}{`r n1`} = `r p1` $$
+$$\hat{p}_2 = \frac{`r s2`}{`r n2`} = `r p2` $$
+Determine the difference of sample proportions.
+$$\hat{p}_2-\hat{p}_1 = `r p2`-`r p1` = `r p2-p1` $$
+Determine the pooled proportion (because the null assumes the population proportions are equal).
+$$ \hat{p} = \frac{`r s1`+`r s2`}{`r n1`+`r n2`} = `r pp` $$
+Determine the standard error.
+$$
+\begin{aligned}
+SE &= \sqrt{\frac{\hat{p}(1-\hat{p})}{n_1}+\frac{\hat{p}(1-\hat{p})}{n_2}} \\[1em]
+&= \sqrt{\frac{(`r pp`)(`r 1-pp`)}{`r n1`}+\frac{(`r pp`)(`r 1-pp`)}{`r n2`}} \\[1em]
+&= `r se`
+\end{aligned}
+$$
+We can be more specific about what the null hypothesis claims.
+$$H_0:~~~~ \hat{P}_2-\hat{P}_1 ~\sim~ \mathcal{N}(0,\,`r se`)$$
+We want to describe how unusual our observation is under the null by finding the $p$-value. To do so, first find the $z$ score.
+$$
+\begin{aligned}
+z &= \frac{(\hat{p}_2-\hat{p}_1)-(p_2-p_1)_0}{SE}\\
+&= \frac{(`r p2`-`r p1`)-0}{`r se`} \\
+&= `r z`
+\end{aligned}
+$$
+Determine the $p$-value.
+$$
+\begin{aligned}
+p\text{-value} &= 2\cdot \Phi(-|z|)\\
+&= 2\cdot \Phi(-`r abs(z)`)\\
+&= `r pval`
+\end{aligned}
+$$
+Compare the $p$-value to the signficance level. 
+$$ p\text{-value} `r sym` \alpha $$
+So, we `r rwrd` the null hypothesis. Thus the difference in proportions is `r wrd2` significant.
+
+
+Answerlist
+--------
+* $H_0: ~~p_2-p_1=0$
+* $H_\text{A}:~~ p_2-p_1\ne 0$
+* $z^\star = `r round(zstar,2)`$
+* $SE = `r se`$
+* $|z_\text{obs}| = `r abs(z)`$
+* $p\text{-value} = `r pval`$
+* `r rwrd` the null
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: string|string|string|string|string|string|string
+exsolution: $H_0: ~~p_2-p_1=0$|$H_\text{A}:~~ p_2-p_1\ne 0$|$z^\star = `r round(zstar,2)`$|$SE=`r round(se,3)`$|$\mid z_\text{obs} \mid=`r abs(z)`$|$p\text{-value} = `r pval`$|`r rwrd`
+exname: p diff test
+extol: 0.01
