@@ -62,7 +62,7 @@ Determine the bounds.
 $$
 \begin{aligned}
 CI &= (\bar{x} - t^\star SE,\,\bar{x} + t^\star SE) \\
-   &= (`r xbar` - `r tstar`\times`r se`,\,`r xbar` - `r tstar`\times`r se`) \\
+   &= (`r xbar` - `r tstar`\times`r se`,\,`r xbar` + `r tstar`\times`r se`) \\
    &= (`r lb`,\,`r ub`) 
 \end{aligned}
 $$

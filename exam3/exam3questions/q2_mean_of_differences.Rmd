@@ -105,7 +105,7 @@ Answerlist
 * $H_0: ~~\mu_\text{diff}=`r 0`$
 * $H_\text{A}:~~ \mu_\text{diff} \ne `r 0`$
 * $t^\star = `r tstar`$
-* $SE = `r se`$
+* $SE = `r dse`$
 * $|t_\text{obs}| = `r abs(t)`$
 * $`r lbpval` < p\text{-value} < `r ubpval`$
 * `r wrd` the null
@@ -115,6 +115,6 @@ Meta-information
 ============
 extype: cloze
 exclozetype: string|string|string|string|string|string|string
-exsolution: $H_0: \mu_\text{diff}=`r 0`$|$H_\text{A}: \mu_\text{diff} \ne 0$|$t^\star = `r tstar`$|$SE = `r signif(se,3)`$|$\mid t_\text{obs}\mid = `r abs(t)`$|$`r lbpval` < p\text{-value} < `r ubpval`$|`r wrd`
+exsolution: $H_0: \mu_\text{diff}=`r 0`$|$H_\text{A}: \mu_\text{diff} \ne 0$|$t^\star = `r tstar`$|$SE = `r signif(dse,3)`$|$\mid t_\text{obs}\mid = `r abs(t)`$|$`r lbpval` < p\text{-value} < `r ubpval`$|`r wrd`
 exname: mean of diffs raw
 extol: 0.01

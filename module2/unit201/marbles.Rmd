@@ -1,0 +1,29 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+images = c("flowers",
+           "cats",
+           "dogs",
+           "
+
+
+```
+
+Question
+========
+
+Ask them
+
+
+Solution
+========
+
+Do it
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: string|string
+exsolution: "hi"|"hi"
+exname: marbles
+extol: 0.01
