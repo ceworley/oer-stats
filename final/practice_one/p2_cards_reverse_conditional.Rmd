@@ -185,20 +185,20 @@ pcgni = signif(runif(1,0.1,0.9),3)
 type = sample(1:4,1)
 wrd1 = switch(type,"","","not ","not ")
 wrd2 = switch(type,"","not ","","not ")
-p1 = switch(type,pi,pi,1-pi,1-pi)
-p2 = switch(type,pcgi,1-pcgi,pcgni,1-pcgni)
-p2b = switch(type,pcgni,1-pcgni,pcgi,1-pcgi)
-p3 = signif(p1*p2,3)
-p4 = signif((1-p1)*p2b,3)
+
+pnum = switch(type,pi*pcgi,pi*(1-pcgi),(1-pi)*pcgni,(1-pi)*(1-pcgni))
+poth = switch(type,(1-pi)*pcgni,(1-pi)*(1-pcgni),pi*pcgi,pi*(1-pcgi))
+p3 = signif(pnum,3)
+p4 = signif(poth,3)
 p5 = signif(p3/(p3+p4),3)
 ```
 
 Question
 ========
 
-In a deck of strange cards, the chance of drawing a `r image` is `r pi*100`%. If a `r image` is drawn, there is a `r pcgi*100`% chance that it is `r color`. If a card that is not a `r image` is drawn, there is a `r pcgni*100`% chance that it is `r color`. 
+In a deck of strange cards, each card has an image and a color. The chance of drawing a `r image` is `r pi*100`%. If a `r image` is drawn, there is a `r pcgi*100`% chance that it is `r color`. If a card that is not a `r image` is drawn, there is a `r pcgni*100`% chance that it is `r color`. 
 
-Now, someone draws a random card and reveals it is `r wrd1` `r color`. What is the chance the card is `r wrd2` a `r image`?
+Now, someone draws a random card and reveals it is `r wrd2` `r color`. What is the chance the card is `r wrd1` a `r image`?
 
 
 Solution
@@ -219,12 +219,12 @@ treeDiag(c('image', 'color'), out1 = c(image,paste("not ",image,sep="")),
 \ 
 
 Determine the appropriate conditional probability.
-$$P(\text{"`r wrd2``r image`" given "`r wrd1``r color`"}) = \frac{`r p3`}{`r p3`+`r p4`} = `r p5` $$
+$$P(\text{"`r wrd1``r image`" given "`r wrd2``r color`"}) = \frac{`r p3`}{`r p3`+`r p4`} = `r p5` $$
 
 
 Meta-information
 ============
 extype: string
-exsolution: $P(\text{"`r wrd2``r image`" given "`r wrd1``r color`"}) = `r p5` $
+exsolution: $P(\text{"`r wrd1``r image`" given "`r wrd2``r color`"}) = `r p5` $
 exname: marbles
 extol: 0.01
