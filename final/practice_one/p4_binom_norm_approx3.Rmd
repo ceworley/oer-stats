@@ -1,0 +1,79 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+while (T)
+{
+    p = round(runif(1,0.04,0.96),2)
+    n = sample(30:250, 1)
+    mu = round(n*p,3)
+    ef = n*(1-p)
+    sig = round(sqrt(n*p*(1-p)),4)
+    if (mu>10 & ef>10 & sig>2 & sig<7) {break}
+}
+while(T)
+{
+    zs = sort(runif(2,-2.5,2.5))
+    ks = as.integer(round(mu+zs*sig,0))
+    if (ks[2]-ks[1]>4) {break}
+}
+z1 = round((ks[1]+0.5-mu)/sig,2)
+z2 = round((ks[2]+0.5-mu)/sig,2)
+
+Pr = round(pnorm(z2),3) - round(pnorm(z1),3)
+```
+
+Question
+========
+
+Let each trial have a chance of success $p=`r p`$. If `r n` trials occur, what is the probability of getting more than `r ks[1]` but at most `r ks[2]` successes? 
+
+In other words, let $X\sim \text{Bin}(n=`r n`,\,p=`r p`)$ and find $P(`r ks[1]`< X \le `r ks[2]`)$.
+
+Use a normal approximation along with the continuity correction.
+
+
+Solution
+========
+
+Find the mean.
+$$\mu = np = (`r n`)(`r p`) = `r mu` $$
+Find the standard deviation.
+$$\sigma = \sqrt{np(1-p)} = \sqrt{(`r n`)(`r p`)(1-`r p`)} = `r sig` $$
+Make a sketch, specifically try to picture whether you need to add or subtract 0.5 for the continuity correction.
+
+\
+```{r binom_norm_sketch, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+mu = n*p
+s = sqrt(n*p*(1-p))
+low = floor(mu-3*s)
+high = ceiling(mu+3*s)
+xs = seq(low,high,length=10000)
+ys = dnorm(xs,mu,s)
+yy = dbinom(low:high, n, p)
+plot(low:high-0.5,yy,type="s",main=NULL,xlab=NULL,ann=FALSE, xaxt='n', ylab=NULL, yaxt='n')
+lines(low:high-0.5,yy,type="h")
+polygon(c(xs[xs>=ks[1]+0.5 & xs<=ks[2]+0.5], ks[2]+0.5, ks[1]+0.5),c(ys[xs>=ks[1]+0.5 & xs<=ks[2]+0.5], 0, 0), col=rgb(1,0,0,0.5))
+curve(dnorm(x,mu,s),add=TRUE)
+axis(side=1, line=2,at=n*p+(-3:3)*s, labels = FALSE)
+mtext(c("-3","-2","-1","0","1","2","3"),side=1,line=2.5,at=n*p+(-3:3)*s)
+mtext(c("z="),line=2.5,side=1,at=n*p+(-3.5)*s)
+vals = seq(low,high,as.integer(sig/2+0.5))
+axis(side=1, line=0, at=vals, labels = FALSE)
+mtext(vals,side=1,line=0.5,at=vals)
+mtext(c("x="),line=0.5,side=1,at=n*p+(-3.5)*s)
+lines(c(low,high), c(0,0))
+```
+
+Find the $z$ scores.
+$$z_1 = \frac{`r ks[1]+0.5`-`r mu`}{`r sig`} = `r z1` $$
+
+$$z_2 = \frac{`r ks[2]+0.5`-`r mu`}{`r sig`} = `r z2` $$
+Calculate the probability.
+$$P(`r ks[1]`< X \le `r ks[2]`) = \Phi(`r z2`) - \Phi(`r z1`) = `r Pr` $$
+
+Meta-information
+============
+extype: string
+exsolution: $P(`r ks[1]`< X \le `r ks[2]`) = `r Pr`$
+exname: binomial normal approximation al am
+extol: 0.01

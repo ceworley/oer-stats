@@ -1,0 +1,39 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+p = round(runif(1,0.08,0.92),2)
+n = sample(60:200, 1)
+mu = n*p
+sig = sqrt(n*p*(1-p))
+
+z = runif(1,-2.5,2.5)
+k = as.integer(round(mu+z*sig,0))
+
+Pr = round(dbinom(k,n,p),4)
+```
+
+Question
+========
+
+Let each trial have a chance of success $p=`r p`$. If `r n` trials occur, what is the probability of getting exactly `r k` successes?
+
+In other words, let $X\sim \text{Bin}(n=`r n`,\,p=`r p`)$ and find $P(X = `r k`)$.
+
+
+Solution
+========
+
+We use the formula for binomial probabilities.
+$$P(X=k) = {n \choose k} (p)^{k}(1-p)^{n-k} $$
+$$P(X=`r k`) = {`r n` \choose `r k`} (`r p`)^{`r k`}(1-`r p`)^{`r n`-`r k`} $$
+$$P(X=`r k`) = {`r n` \choose `r k`} (`r p`)^{`r k`}(`r 1- p`)^{`r n-k`} $$
+
+$$P(X=`r k`) = `r Pr`$$
+
+
+
+Meta-information
+============
+extype: string
+exsolution: $P(X=`r k`) = `r Pr`$
+exname: binomial exact
+extol: 0.01

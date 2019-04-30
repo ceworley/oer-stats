@@ -1,0 +1,60 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+mu = sample(50+(0:20)*10, 1)
+sig = sample(2:round(mu/3,0), 1)
+n = sample(60:200,1)
+se = round(sig/sqrt(n),2) 
+
+z = round(runif(1,-2.7,2.7),2)
+la = round(pnorm(z),3)
+x = round(mu+z*se,2)
+
+Pr = round(pnorm(z),3)
+```
+
+Question
+========
+
+A roughly symmetric population has a mean $\mu = `r mu`$ and standard deviation $\sigma = `r sig`$. What is the probability that a sample of size $n = `r n`$ has a mean less than $`r x`$?
+
+
+Solution
+========
+
+Find the standard error.
+$$SE = \frac{\sigma}{\sqrt{n}} = \frac{`r sig`}{\sqrt{`r n`}} = `r se` $$
+Describe the sampling distribution.
+$$\bar{X} \sim \mathcal{N}(`r mu`,\,`r se`) $$
+
+Draw a sketch.
+\
+```{r normal_sketch_sampling, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(mu+(-3:3)*se,side=1,line=0.5,at=-3:3)
+mtext(c("xbar="),line=0.5,side=1,at=-3.5)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.5)
+polygon(c(zs[zs<=z], z, -3),c(ys[zs<=z], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l')
+text(-2,0.3,label=sprintf("area = P(Xbar < %0.2f)",x))
+```
+
+Calculate a $z$ score.
+$$z = \frac{`r x`-`r mu`}{`r se`} = `r z` $$
+Determine the probability.
+$$P(X<`r x`) = `r Pr` $$
+
+
+Meta-information
+============
+extype: string
+exsolution: $P(X<`r x`) = `r Pr` $
+exname: sampling distro
+extol: 0.01

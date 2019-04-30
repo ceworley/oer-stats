@@ -1,5 +1,3 @@
-```{r data generation, echo = FALSE, results = "hide"}
-## DATA GENERATION
 images = c("bike",
            "cat",
            "dog",
@@ -12,34 +10,14 @@ images = c("bike",
            "wheel")
 colors = c("red","orange","yellow","green","blue","indigo","violet","white",
            "black","teal","pink","gray")
+ni = sample(2:5,1)
+nc = sample(2:5,1)
+is = sort(sample(images,ni))
+cs = sort(sample(colors,nc))
 
-while(T)
-{
-    ni = sample(3:5,1)
-    nc = sample(3:5,1)
-    is = sort(sample(images,ni))
-    cs = sort(sample(colors,nc))
-
-    nums = matrix(sample(10:99,ni*nc),ni)
-    rownames(nums) = is
-    colnames(nums) = cs
-
-    tots = c()
-    for(row in 1:ni)
-    {
-        tots = c(tots,sum(nums[row,]))
-    }
-    for(col in 1:nc)
-    {
-        tots = c(tots,sum(nums[,col]))
-    }
-    if(sum(duplicated(tots))==0)
-    {
-        break
-    }
-}
-
+nums = matrix(sample(10:99,ni*nc),ni)
 tot = sum(nums)
+
 
 #marginal image
 i1 = sample(1:ni,1)
@@ -92,8 +70,8 @@ ex5 = paste0("$P(\\text{",cs[c5]," given ",is[i5],"})$",sep="")
 i6 = sample(1:ni,1)
 c6 = sample(1:nc,1)
 p6 = signif(nums[i6,c6]/sum(nums[,c6]),3)
-t6 = paste0("What is the probability a random card is a ",
-            is[i6]," given it is ",cs[c6],"?",sep="")
+t6 = paste0("What is the probability a random card is ",
+            is[i6]," given it is a ",cs[c6],"?",sep="")
 numer6 = paste(nums[i6,c6])
 denom6 = paste(nums[,c6],collapse="+")
 ex6 = paste0("$P(\\text{",is[i6]," given ",cs[c6],"})$",sep="")
@@ -111,51 +89,10 @@ nn = numers[ord]
 dd = denoms[ord]
 ee = exs[ord]
 
+paste(cs,collapse=' | ')
 s = ""
 for(i in 1:ni)
 {
-    s = paste(s,"\n","|",paste(c(is[i],paste(nums[i,],sep=" | ")),collapse=" | "),"|",collapse="") 
+    s = paste(s,"\\n","|",paste(c(is[i],paste(nums[i,],sep=" | ")),collapse=" | "),"|",collapse="") 
 }
-```
-
-Question
-========
-
-In a deck of strange cards, there are `r tot` cards. Each card has an image and a color. The amounts are shown in the table below.
-
-```{r echo=FALSE}
-library(knitr)
-kable(nums)
-```
-
-Answerlist
---------
-* `r tt[1]`
-* `r tt[2]`
-* `r tt[3]`
-* `r tt[4]`
-* `r tt[5]`
-* `r tt[6]`
-
-
-
-Solution
-========
-
-Answerlist
---------
-* `r ee[1]` $=\frac{`r nn[1]`}{`r dd[1]`}=`r pp[1]`$
-* `r ee[2]` $=\frac{`r nn[2]`}{`r dd[2]`}=`r pp[2]`$
-* `r ee[3]` $=\frac{`r nn[3]`}{`r dd[3]`}=`r pp[3]`$
-* `r ee[4]` $=\frac{`r nn[4]`}{`r dd[4]`}=`r pp[4]`$
-* `r ee[5]` $=\frac{`r nn[5]`}{`r dd[5]`}=`r pp[5]`$
-* `r ee[6]` $=\frac{`r nn[6]`}{`r dd[6]`}=`r pp[6]`$
-
-
-Meta-information
-============
-extype: cloze
-exclozetype: string|string|string|string|string|string|
-exsolution: `r pp[1]`|`r pp[2]`|`r pp[3]`|`r pp[4]`|`r pp[5]`|`r pp[6]`|
-exname: marbles
-extol: 0.01
+s

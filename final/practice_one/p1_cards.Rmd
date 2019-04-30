@@ -156,6 +156,6 @@ Meta-information
 ============
 extype: cloze
 exclozetype: string|string|string|string|string|string|
-exsolution: `r pp[1]`|`r pp[2]`|`r pp[3]`|`r pp[4]`|`r pp[5]`|`r pp[6]`|
+exsolution: `r ee[1]` $=`r pp[1]`$|`r ee[2]` $=`r pp[2]`$|`r ee[3]` $=`r pp[3]`$|`r ee[4]` $=`r pp[4]`$|`r ee[5]` $=`r pp[5]`$|`r ee[6]` $=`r pp[6]`$|
 exname: marbles
 extol: 0.01
