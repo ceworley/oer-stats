@@ -73,7 +73,7 @@ $$P(`r ks[1]`\le X < `r ks[2]`) = \Phi(`r z2`) - \Phi(`r z1`) = `r Pr` $$
 
 Meta-information
 ============
-extype: num
-exsolution: `r Pr`
+extype: string
+exsolution: $P(`r ks[1]`\le X < `r ks[2]`) = `r Pr` $
 exname: binomial normal approximation al lt
 extol: 0.01

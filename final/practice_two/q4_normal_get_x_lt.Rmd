@@ -1,0 +1,53 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+mu = sample(50+(0:20)*10, 1)
+sig = sample(2:round(mu/3,0), 1)
+
+z = round(runif(1,-2.7,2.7),2)
+la = round(pnorm(z),3)
+x = round(mu+z*sig,3)
+```
+
+Question
+========
+
+Let $X\sim \mathcal{N}(`r mu`,\,`r sig`)$. Determine $x$ such that $P(X < x) = `r la`$.
+
+
+Solution
+========
+
+We draw a sketch.
+
+\
+```{r normal_sketch, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=10000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(mu+(-3:3)*sig,side=1,line=0.5,at=-3:3)
+mtext(c("x="),line=0.5,side=1,at=-3.5)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.5)
+polygon(c(zs[zs<=z], z, -3),c(ys[zs<=z], 0, 0), col=rgb(1,0,0,0.5))
+text(-2,0.2,label=sprintf("area = %.3f",la))
+lines(c(-3,3),c(0,0),'l',lwd=1)
+```
+
+We find the $z$ score.
+$$z = \Phi^{-1}(`r la`) = `r z` $$
+
+We find $x$.
+$$x = \mu+z\sigma = `r mu`+(`r z`)(`r sig`) = `r x` $$
+
+
+Meta-information
+============
+extype: string
+exsolution: $x=`r x`$
+exname: Normal get x lt
+extol: 0.01
