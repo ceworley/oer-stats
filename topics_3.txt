@@ -1,0 +1,128 @@
+
+
+value <---> percentile
+
+Organize data using frequency distributions
+histogram
+    frequency
+    relative frequency
+    density
+    percentile <--> score
+
+read histogram
+    how many values are between __ and __
+    what fraction of values are between __ and __
+    what cutoff value is the ___ percentile?
+
+convert frequency to relative frequency
+    r = f/n
+convert frequency to density
+    d = f/(n*w)
+
+
+
+
+wheel:
+    percentile
+    geometric
+    z-score
+    
+boxplots
+mosaic plots
+
+Find mean of sample
+
+
+
+
+
+
+
+
+
+idealized population
+    infinite draws from random variable
+idealized sample
+    finite draws from a random variable
+
+
+
+1 population behave expectedly?
+2 populations different?
+
+
+
+random numbers:
+    dice
+    spinner
+    coin
+    cards
+
+mean median mode
+stdev IQR
+
+bias
+
+type I II errors
+power
+
+specificity - sensitivity
+
+categorical vs. numerical
+discrete vs. continuous
+
+correlation vs. causation
+experimental vs. observational study
+
+
+
+continuous variable
+discrete variable
+
+
+    
+
+IQR
+
+
+central limit theorem expressed as:
+    regardless of X's distribution,
+    with large enough n,
+    (X1+X2+...+Xn)/n ~ N(muX,sigX)
+    
+    
+
+discrete population (prob dist)
+    mean
+    stdev
+    die
+        mean
+        stdev
+    dice
+        mean
+        stdev
+continuous population (prob dist)
+    mean (balance point of area)
+    stdev (~IQR)
+    geometric population
+        mean
+        stdev
+    uniform population
+        mean
+        stdev
+    normal population
+        mean
+        stdev
+
+
+z score of x score
+x score of z score
+
+
+1 mean confidence interval
+1 prop confidence interval
+2 mean welch test
+2 prop test
+
+1 mean test
+1 prop test

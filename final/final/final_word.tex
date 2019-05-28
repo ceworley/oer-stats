@@ -1,0 +1,50 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{color,verbatim,Sweave,url,xargs,amsmath,hyperref,booktabs,longtable}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textsc{BHCC Mat-181}}
+\rhead{\textsc{Final Practice Review \#2}}
+
+\usepackage{caption}
+\captionsetup[figure]{labelformat=empty}
+
+\usepackage{float}
+\floatplacement{figure}{H}
+
+
+%% new environments
+\newenvironment{question}{\item \textbf{Problem}\newline}{\newpage}
+\newenvironment{solution}{\textbf{Solution}\newline}{\newpage}
+\newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
+
+
+%% compatibility with pandoc
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%% fonts: Helvetica
+\renewcommand{\sfdefault}{phv}
+\IfFileExists{sfmath.sty}{
+  \RequirePackage[helvet]{sfmath}
+  \renewcommand{\rmdefault}{phv}
+}{}
+
+
+\newcommand{\exstring}[1]{%
+  \mbox{\framebox[0.9\textwidth][l]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#1}} \hspace*{2mm}}%
+}
+
+\begin{document}
+
+\begin{enumerate}
+
+%% \exinput{exercises}
+
+\end{enumerate}
+
+%% \exinput{questionnaire}
+
+\end{document}

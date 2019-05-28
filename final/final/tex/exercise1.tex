@@ -1,0 +1,39 @@
+
+\begin{question}
+In a deck of strange cards, there are 790 cards. Each card has an image
+and a color. The amounts are shown in the table below.
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\toprule
+& gray & orange & pink & white\tabularnewline
+\midrule
+\endhead
+bike & 54 & 45 & 85 & 77\tabularnewline
+dog & 53 & 24 & 61 & 39\tabularnewline
+horn & 16 & 72 & 55 & 56\tabularnewline
+wheel & 23 & 73 & 31 & 26\tabularnewline
+\bottomrule
+\end{longtable}
+\begin{answerlist}
+  \item What is the probability a random card is both a horn and orange?
+  \item What is the probability a random card is either a wheel or white (or
+both)?
+  \item What is the probability a random card is white?
+  \item What is the probability a random card is a bike given it is orange?
+  \item What is the probability a random card is a dog?
+  \item What is the probability a random card is pink given it is a dog?
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+  \item \(P(\text{horn and orange})\) \(=\frac{72}{790}=0.0911\)
+  \item \(P(\text{wheel or white})\)
+\(=\frac{23+73+31+26+77+39+56+26-26}{790}=0.411\)
+  \item \(P(\text{white})\) \(=\frac{77+39+56+26}{790}=0.251\)
+  \item \(P(\text{bike given orange})\) \(=\frac{45}{45+24+72+73}=0.21\)
+  \item \(P(\text{dog})\) \(=\frac{53+24+61+39}{790}=0.224\)
+  \item \(P(\text{pink given dog})\) \(=\frac{61}{53+24+61+39}=0.345\)
+\end{answerlist}
+\end{solution}
+

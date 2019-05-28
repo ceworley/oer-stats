@@ -1,0 +1,99 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+while(T)
+{
+    p = round(runif(1,0.04,0.96),2)
+    n = sample(30:250, 1)
+    mu = round(n*p,3)
+    ef = n*(1-p)
+    sig = round(sqrt(n*p*(1-p)),4)
+    if (mu>10 & ef>10 & sig>2 & sig<7) {break}
+}
+while(T)
+{
+    zs = sort(runif(2,-2.5,2.5))
+    ks = as.integer(round(mu+zs*sig,0))
+    ll = ks[1]-0.5
+    ul = ks[2]+0.5
+    zs = round((c(ll,ul)-mu)/sig,2)
+    if (ks[2]-ks[1]>4) {break}
+}
+
+Pr = round(pnorm(zs[2]),4)-round(pnorm(zs[1]),4)
+
+z = runif(1,-1,1)
+k = as.integer(round(mu+z*sig,0))
+Pr2 = round(dbinom(k,n,p),4)
+```
+
+Question
+========
+
+In a game, there is a `r p*100`% chance to win a round. You will play `r n` rounds.
+
+Answerlist
+--------
+* What is the probability of winning exactly `r k` rounds?
+* What is the probability of winning at least `r ks[1]` but at most `r ks[2]` rounds? 
+
+
+
+Solution
+========
+
+We use the formula for binomial probabilities.
+$$P(X=k) = {n \choose k} (p)^{k}(1-p)^{n-k} $$
+$$P(X=`r k`) = {`r n` \choose `r k`} (`r p`)^{`r k`}(1-`r p`)^{`r n`-`r k`} $$
+$$P(X=`r k`) = {`r n` \choose `r k`} (`r p`)^{`r k`}(`r 1- p`)^{`r n-k`} $$
+$$P(X=`r k`) = `r Pr2`$$
+
+Find the mean.
+$$\mu = np = (`r n`)(`r p`) = `r mu` $$
+Find the standard deviation.
+$$\sigma = \sqrt{np(1-p)} = \sqrt{(`r n`)(`r p`)(1-`r p`)} = `r sig` $$
+Make a sketch, specifically try to picture whether you need to add or subtract 0.5 for the continuity correction.
+
+\
+```{r binom_norm_sketch, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+mu = n*p
+s = sqrt(n*p*(1-p))
+low = floor(mu-3*s)
+high = ceiling(mu+3*s)
+xs = seq(low,high,length=10000)
+ys = dnorm(xs,mu,s)
+yy = dbinom(low:high, n, p)
+plot(low:high-0.5,yy,type="s",main=NULL,xlab=NULL,ann=FALSE, xaxt='n', ylab=NULL, yaxt='n')
+lines(low:high-0.5,yy,type="h")
+polygon(c(xs[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], ks[2]+0.5, ks[1]-0.5),c(ys[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], 0, 0), col=rgb(1,0,0,0.5))
+curve(dnorm(x,mu,s),add=TRUE)
+axis(side=1, line=2,at=n*p+(-3:3)*s, labels = FALSE)
+mtext(c("-3","-2","-1","0","1","2","3"),side=1,line=2.5,at=n*p+(-3:3)*s)
+mtext(c("z="),line=2.5,side=1,at=n*p+(-3.5)*s)
+vals = seq(low,high,as.integer(sig/2+0.5))
+axis(side=1, line=0, at=vals, labels = FALSE)
+mtext(vals,side=1,line=0.5,at=vals)
+mtext(c("x="),line=0.5,side=1,at=n*p+(-3.5)*s)
+lines(c(low,high), c(0,0))
+```
+Find the $z$ scores.
+$$z_1 = \frac{`r ll`-`r mu`}{`r sig`} = `r zs[1]` $$
+
+$$z_2 = \frac{`r ul`-`r mu`}{`r sig`} = `r zs[2]` $$
+Calculate the probability.
+$$P(`r ks[1]`\le X \le `r ks[2]`) = \Phi(`r zs[2]`) - \Phi(`r zs[1]`) = `r Pr` $$
+
+Answerlist
+--------
+
+* $P(X=`r k`) = `r Pr2`$
+* $P(`r ks[1]` \le X \le `r ks[2]`) = `r Pr`$
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: string|string
+exsolution: $P(X=`r k`) = `r Pr2`$ | $P(`r ks[1]`\le X \le `r ks[2]`) = `r Pr`$
+exname: binomial exact and at-least/at-most
+extol: 0.01

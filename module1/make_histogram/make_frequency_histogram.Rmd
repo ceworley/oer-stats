@@ -1,0 +1,53 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+shape1 = 2**runif(1,-1,1)
+shape2 = 2**runif(1,-1,1)
+n = sample(3:6,1)*5
+mag = sample(-1:3,1)
+scale = 10^mag
+offset = runif(1,0,10)*scale
+data = round(rbeta(n,shape1,shape2)*scale + offset,-mag+2)
+h = hist(data,density=20)
+
+
+## The frequency table
+ft = ''
+for(i in 1:length(h$counts))
+{
+    ft = paste(c(ft, paste(c('| $', h$breaks[i], '< X \\le ', h$breaks[i+1], '$| ', h$counts[i], ' |'),collapse=''), '\n'),collapse='')
+}
+```
+
+Question
+========
+
+Please make a histogram from the following (sorted) data.
+
+`r matrix(sort(data), nrow = 5)`
+
+Please use a lowest boundary of `r h$breaks[1]` and a bin width of `r h$breaks[2]-h$breaks[1]`. Also, if a value falls directly on a break, place it in the lower bin.
+
+
+
+Solution
+========
+
+We can make a frequency table.
+
+| Condition | Count |
+|:---------:|:-----:|
+`r ft`
+
+\
+```{r hist, echo = FALSE, results = "hide", fig.height = 4, fig.width = 5, fig.path = "", fig.cap = ""}
+hist(data,density=20)
+```
+\
+
+
+Meta-information
+============
+extype: string
+exsolution: make the histogram
+exname: histogram
+extol: 0.01

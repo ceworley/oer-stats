@@ -9,16 +9,17 @@ q6 = "q6_diff_p_test.Rmd"
 
 probs = c(q1,q2,q3,q4,q5,q6)
 
-set.seed(12345)
+set.seed(123459)
 exams2pdf(probs, 
-  n = 30,
+  n = 5,
   name = c("Exam_3_","Exam_3_ans_"),
-  dir = "output",
+  dir = "output_extra",
   resolution = 300,
+  texdir = "tex",
   template = c("templates/exam.tex","templates/exam_ans.tex"),
   header = list(
     Date = "2019-04-25",
-    ID = function(i) formatC(i, width = 3, flag = "0")
+    ID = function(i) formatC(i+50, width = 3, flag = "0")
   )
   )
 

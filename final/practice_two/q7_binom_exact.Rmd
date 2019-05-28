@@ -7,7 +7,6 @@ sig = sqrt(n*p*(1-p))
 
 z = runif(1,-2.5,2.5)
 k = as.integer(round(mu+z*sig,0))
-
 Pr = round(dbinom(k,n,p),4)
 ```
 

@@ -1,0 +1,27 @@
+
+\begin{question}
+From a very large population, a random sample of 91000 individuals was
+taken. In that sample, 62.9\% were cold. Determine a 99.5\% confidence
+interval of the population proportion.
+\begin{answerlist}
+  \item Find the lower bound of the confidence interval.
+  \item Find the upper bound of the condifence interval.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+Determine \(z^\star\) such that \(P(|Z|<z^\star) = 0.995\).
+\[z^\star = 2.81 \] Calculate the standard error.
+\[SE = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \sqrt{\frac{(0.629)(1-0.629)}{91000}} = 0.0016 \]
+Calculate the margin of error.
+\[ME = z^\star SE = (2.81)(0.0016) = 0.0045 \] To find the confidence
+interval's bounds, find the sample proportion plus or minus the margin
+of error. \[p ~\approx~ \hat{p} \pm ME \] Determine the interval.
+\[(0.625\,,~ 0.633) \] We are 99.5\% confident that the true population
+proportion is between 62.5\% and 63.3\%.
+\begin{answerlist}
+  \item The lower bound = 0.625, which can also be expressed as 62.5\%.
+  \item The upper bound = 0.633, which can also be expressed as 63.3\%.
+\end{answerlist}
+\end{solution}
+

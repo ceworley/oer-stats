@@ -1,3 +1,13 @@
+Mine:
+
+Make a histogram
+    - frequency
+    - relative frequency
+    - density
+Histogram: percentile <-> score
+
+
+
 
 Unit 1.1 - Intro to Stats
 ### Differentiate between descriptive and inferential statistics

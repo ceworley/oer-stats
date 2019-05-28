@@ -1,0 +1,43 @@
+
+\begin{question}
+As an ornithologist, you wish to determine the average body mass of
+\emph{Dendroica castanea}. You randomly capture 20 adults of
+\emph{Dendroica castanea}, resulting in a sample mean of 15.13 grams and
+a sample standard deviation of 1.16 grams. You decide to report a 80\%
+confidence interval.
+\begin{answerlist}
+  \item Determine the lower bound of the confidence interval.
+  \item Determine the upper bound of the confidence interval.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+We are given the sample size, sample mean, sample standard deviation,
+and confidence level. \[
+\begin{aligned}
+n &= 20 \\
+\bar{x} &= 15.13 \\
+s &= 1.16\\
+CL &= 0.8
+\end{aligned}
+\] Determine the degrees of freedom (because we don't know \(\sigma\)
+and we are doing inference so we need to use the \(t\) distribution).
+\[df = n-1 = 19\] Determine the critical \(t\) value, \(t^\star\), such
+that \(P(|T|<t^\star) = 0.8\). \[t^\star = 1.33 \] Calculate the
+standard error.
+\[ SE = \frac{s}{\sqrt{n}} = \frac{1.16}{\sqrt{20}} = 0.259 \] We want
+to make an inference about the population mean.
+\[\mu ~\approx~ \bar{x}\pm t^\star SE \] Determine the bounds. \[
+\begin{aligned}
+CI &= (\bar{x} - t^\star SE,\,\bar{x} + t^\star SE) \\
+   &= (15.13 - 1.33\times0.259,\,15.13 + 1.33\times0.259) \\
+   &= (14.8,\,15.5) 
+\end{aligned}
+\] We are 80\% confident that the population mean is between 14.8 and
+15.5.
+\begin{answerlist}
+  \item Lower bound = 14.8
+  \item Upper bound = 15.5
+\end{answerlist}
+\end{solution}
+

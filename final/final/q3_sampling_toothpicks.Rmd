@@ -1,0 +1,85 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+while(T)
+{
+mu = signif(runif(1,60,75),4)
+sig = signif(runif(1,1,4),3)
+n = sample(c(100,120,121,125,144,150,169,175,196,200,225),1)
+se = signif(sig/sqrt(n),3)
+z1 = runif(1,-2.7,-0.5)
+z2 = runif(1,0.5,2.7)
+x1 = signif(mu+z1*se,4)
+x2 = signif(mu+z2*se,4)
+z1 = round((x1-mu)/se,2)
+z2 = round((x2-mu)/se,2)
+Pr = round(pnorm(z2),4)-round(pnorm(z1),4)
+if(0.1 < Pr & Pr < 0.9)
+{
+    break
+}
+}
+```
+
+Question
+========
+
+In a very large pile of toothpicks, the mean length is `r mu` millimeters and the standard deviation is `r sig` millimeters. If you randomly sample `r n` toothpicks, what is the chance the sample mean is between `r x1` and `r x2` millimeters?
+
+
+Solution
+========
+
+Label the given information.
+$$ 
+\begin{aligned}
+\mu &= `r mu`\\
+\sigma &= `r sig`\\
+n &= `r n`\\
+\bar{x}_\text{lower} &= `r x1` \\
+\bar{x}_\text{upper} &= `r x2`
+\end{aligned}
+$$
+Find the standard error.
+$$SE = \frac{\sigma}{\sqrt{n}} = \frac{`r sig`}{\sqrt{`r n`}} = `r se` $$
+Describe the sampling distribution.
+$$\bar{X} \sim \mathcal{N}(`r mu`,\,`r se`) $$
+
+Draw a sketch.
+\
+```{r normal_sketch_sampling, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(mu+(-3:3)*se,side=1,line=0.5,at=-3:3)
+mtext(c("xbar="),line=0.5,side=1,at=-3.5)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.5)
+polygon(c(zs[zs>=z1 & zs<=z2], z2, z1),c(ys[zs>=z1 & zs<=z2], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l')
+text(-2,0.3,label=sprintf("area = P(%0.2f < Xbar < %0.2f)",x1,x2))
+```
+\ 
+
+Calculate a $z$ scores.
+$$z_\text{lower} = \frac{x_\text{lower}-\mu}{SE} = \frac{`r x1`-`r mu`}{`r se`} = `r z1` $$
+$$z_\text{upper} = \frac{x_\text{upper}-\mu}{SE} = \frac{`r x2`-`r mu`}{`r se`} = `r z2` $$
+Determine the probability.
+$$
+\begin{aligned}
+P(`r x1` < X < `r x2`) &= \Phi(z_\text{upper}) - \Phi(z_\text{lower}) \\
+&= \Phi(`r z2`) - \Phi(`r z1`) \\
+&= `r Pr` 
+\end{aligned}
+$$
+
+
+Meta-information
+============
+extype: string
+exsolution: $P(`r x1` < X < `r x2`) = `r Pr` $
+exname: sampling distro

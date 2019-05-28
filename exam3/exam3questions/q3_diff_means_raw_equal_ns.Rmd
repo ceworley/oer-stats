@@ -105,7 +105,7 @@ $$
 State the hypotheses.
 $$H_0:~~\mu_2-\mu_1 = 0$$
 $$H_A:~~\mu_2-\mu_1 \ne 0$$
-We are using a two-tail test. Find $t^{\star}$ such that $P(|T|>t^{\star})$ by using a $t$ table.
+We are using a two-tail test. Find $t^{\star}$ such that $P(|T|>t^{\star})=`r alpha`$ by using a $t$ table.
 $$t^{\star} = `r tstar`$$
 Determine the sample statistics. Use a calculator!
 $$

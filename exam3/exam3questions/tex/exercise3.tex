@@ -1,0 +1,83 @@
+
+\begin{question}
+You are interested in whether a treatment causes an effect on a
+continuously measurable attribute. You use a treatment group with 5
+cases and a control group with 5 cases. You decide to run a hypothesis
+test with a significance level of 0.05. Your data is below. Please use 5
+for the degrees of freedom (calculated with the Welch-Satterthwaite
+equation).
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+treatment & control\tabularnewline
+\midrule
+\endhead
+440 & 650\tabularnewline
+420 & 400\tabularnewline
+460 & 510\tabularnewline
+450 & 580\tabularnewline
+460 & 690\tabularnewline
+\bottomrule
+\end{longtable}
+\begin{answerlist}
+  \item State the null hypothesis.
+  \item State the alternative hypothesis.
+  \item Evaluate the critical value. (The critical value is either \(z^\star\)
+or \(t^\star\). Determine its value.)
+  \item Determine the standard error of the relevant sampling distribution.
+  \item Evaluate the absolute value of the test statistic. (The test statistic
+is either \(z_\text{obs}\) or \(t_\text{obs}\). Determine its absolute
+value.)
+  \item If possible, evaluate the \(p\)-value. Otherwise, describe an interval
+containing the \(p\)-value.
+  \item Do we reject or retain the null?
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+We are given unpaired data. We are considering a difference of means.
+Label the given information. \[
+\begin{aligned}
+n_1 &= 5 \\
+n_2 &= 5 \\
+\alpha &= 0.05
+\end{aligned}
+\] State the hypotheses. \[H_0:~~\mu_2-\mu_1 = 0\]
+\[H_A:~~\mu_2-\mu_1 \ne 0\] We are using a two-tail test. Find
+\(t^{\star}\) such that \(P(|T|>t^{\star})=0.05\) by using a \(t\)
+table. \[t^{\star} = 2.57\] Determine the sample statistics. Use a
+calculator! \[
+\begin{aligned}
+\bar{x}_1 &= 446 \\
+s_1 &= 16.7 \\
+\bar{x}_2 &= 566 \\
+s_2 &= 115
+\end{aligned}
+\] Calculate the standard error. \[
+\begin{aligned}
+SE &= \sqrt{\frac{(s_1)^2}{n_1}+\frac{(s_2)^2}{n_2}} \\
+&= \sqrt{\frac{(16.7)^2}{5}+\frac{(115)^2}{5}} \\
+&= 52
+\end{aligned}
+\] Determine the test statistic. \[
+\begin{aligned}
+t_\text{obs} &= \frac{(\bar{x}_2-\bar{x}_1)-(\mu_2-\mu_1)_0}{SE} \\
+&= \frac{(566-446)-(0)}{52} \\
+&= 2.31
+\end{aligned}
+\] Compare \(|t_\text{obs}|\) and \(t^\star\).
+\[|t_\text{obs}| < t^\star \] We can determine an interval for the
+\(p\)-value using the \(t\) table. \[0.05 < p\text{-value} < 0.1\]
+Compare \(p\)-value and \(\alpha\). \[p\text{-value} > \alpha \] We
+conclude that we should retain the null hypothesis.
+\begin{answerlist}
+  \item \(H_0: ~~\mu_2-\mu_1=0\)
+  \item \(H_\text{A}:~~ \mu_2-\mu_1\ne 0\)
+  \item \(t^\star = 2.57\)
+  \item \(SE = 52\)
+  \item \(|t_\text{obs}| = 2.31\)
+  \item \(0.05 < p\text{-value} < 0.1\)
+  \item retain the null
+\end{answerlist}
+\end{solution}
+

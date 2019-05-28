@@ -1,0 +1,153 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+images = c("bike","cat","dog","flower","gem",
+           "horn","pig","shovel","tree","wheel")
+colors = c("red","orange","yellow","green","blue",
+           "indigo","violet","white",
+           "black","teal","pink","gray")
+while(T)
+{
+    ni = sample(3:5,1)
+    nc = sample(3:5,1)
+    is = sort(sample(images,ni))
+    cs = sort(sample(colors,nc))
+
+    nums = matrix(sample(10:99,ni*nc),ni)
+    rownames(nums) = is
+    colnames(nums) = cs
+
+    tots = c()
+    for(row in 1:ni)
+    {
+        tots = c(tots,sum(nums[row,]))
+    }
+    for(col in 1:nc)
+    {
+        tots = c(tots,sum(nums[,col]))
+    }
+    if(sum(duplicated(tots))==0)
+    {
+        break
+    }
+}
+
+tot = sum(nums)
+
+#marginal image
+i1 = sample(1:ni,1)
+p1 = signif(sum(nums[i1,])/tot,3)
+t1 = paste0("What is the probability a random card is a ",is[i1],"?",sep="")
+numer1 = paste(nums[i1,],collapse="+")
+denom1 = paste(tot)
+ex1 = paste0("$P(\\text{",is[i1],"})$",sep="")
+
+#marginal color
+c2 = sample(1:nc,1)
+p2 = signif(sum(nums[,c2])/tot,3)
+t2 = paste0("What is the probability a random card is ",cs[c2],"?",sep="")
+numer2 = paste(nums[,c2],collapse="+")
+denom2 = paste(tot)
+ex2 = paste0("$P(\\text{",cs[c2],"})$",sep="")
+
+#joint
+i3 = sample(1:ni,1)
+c3 = sample(1:nc,1)
+p3 = signif(nums[i3,c3]/tot,3)
+t3 = paste0("What is the probability a random card is both a ",
+            is[i3]," and ",cs[c3],"?",sep="")
+numer3 = paste(nums[i3,c3])
+denom3 = paste(tot)
+ex3 = paste0("$P(\\text{",is[i3]," and ",cs[c3],"})$",sep="")
+
+#disjoint
+i4 = sample(1:ni,1)
+c4 = sample(1:nc,1)
+p4 = signif((sum(nums[i4,])+sum(nums[,c4])-nums[i4,c4])/tot,3)
+t4 = paste0("What is the probability a random card is either a "
+            ,is[i4]," or ",cs[c4]," (or both)?",sep="")
+numer4 = paste(paste(c(nums[i4,],nums[,c4]),collapse="+"),
+               nums[i4,c4],sep="-")
+denom4 = paste(tot)
+ex4 = paste0("$P(\\text{",is[i4]," or ",cs[c4],"})$",sep="")
+
+#conditioned on image
+i5 = sample(1:ni,1)
+c5 = sample(1:nc,1)
+p5 = signif(nums[i5,c5]/sum(nums[i5,]),3)
+t5 = paste0("What is the probability a random card is ",
+            cs[c5]," given it is a ",is[i5],"?",sep="")
+numer5 = paste(nums[i5,c5])
+denom5 = paste(nums[i5,],collapse="+")
+ex5 = paste0("$P(\\text{",cs[c5]," given ",is[i5],"})$",sep="")
+
+#conditioned on color
+i6 = sample(1:ni,1)
+c6 = sample(1:nc,1)
+p6 = signif(nums[i6,c6]/sum(nums[,c6]),3)
+t6 = paste0("What is the probability a random card is a ",
+            is[i6]," given it is ",cs[c6],"?",sep="")
+numer6 = paste(nums[i6,c6])
+denom6 = paste(nums[,c6],collapse="+")
+ex6 = paste0("$P(\\text{",is[i6]," given ",cs[c6],"})$",sep="")
+
+ts = c(t1,t2,t3,t4,t5,t6)
+ps = c(p1,p2,p3,p4,p5,p6)
+numers = c(numer1,numer2,numer3,numer4,numer5,numer6)
+denoms = c(denom1,denom2,denom3,denom4,denom5,denom6)
+exs = c(ex1,ex2,ex3,ex4,ex5,ex6)
+ord = sample(1:6)
+
+tt = ts[ord]
+pp = ps[ord]
+nn = numers[ord]
+dd = denoms[ord]
+ee = exs[ord]
+
+s = ""
+for(i in 1:ni)
+{
+    s = paste(s,"\n","|",paste(c(is[i],paste(nums[i,],sep=" | ")),collapse=" | "),"|",collapse="") 
+}
+```
+
+Question
+========
+
+In a deck of strange cards, there are `r tot` cards. Each card has an image and a color. The amounts are shown in the table below.
+
+```{r echo=FALSE}
+library(knitr)
+kable(nums)
+```
+
+Answerlist
+--------
+* `r tt[1]`
+* `r tt[2]`
+* `r tt[3]`
+* `r tt[4]`
+* `r tt[5]`
+* `r tt[6]`
+
+
+
+Solution
+========
+
+Answerlist
+--------
+* `r ee[1]` $=\frac{`r nn[1]`}{`r dd[1]`}=`r pp[1]`$
+* `r ee[2]` $=\frac{`r nn[2]`}{`r dd[2]`}=`r pp[2]`$
+* `r ee[3]` $=\frac{`r nn[3]`}{`r dd[3]`}=`r pp[3]`$
+* `r ee[4]` $=\frac{`r nn[4]`}{`r dd[4]`}=`r pp[4]`$
+* `r ee[5]` $=\frac{`r nn[5]`}{`r dd[5]`}=`r pp[5]`$
+* `r ee[6]` $=\frac{`r nn[6]`}{`r dd[6]`}=`r pp[6]`$
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: string|string|string|string|string|string|
+exsolution: `r ee[1]` $=`r pp[1]`$|`r ee[2]` $=`r pp[2]`$|`r ee[3]` $=`r pp[3]`$|`r ee[4]` $=`r pp[4]`$|`r ee[5]` $=`r pp[5]`$|`r ee[6]` $=`r pp[6]`$|
+exname: marbles
+extol: 0.01
